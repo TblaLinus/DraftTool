@@ -8,8 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Command="{Binding ExitApplicationCommand}"
-                VerticalContentAlignment="Center" Margin="2"
-                Content="EXIT" FontSize="16"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" FontSize="20">
+            <MenuItem Header="New Draft" Command="{Binding StartNewDraftCommand}"/>
+            <MenuItem Header="Cardlist" Command="{Binding GoToCardListCommand}"/>
+            <MenuItem Header="Exit"
+                      Command="{Binding ExitApplicationCommand}"/>
+        </Menu>
     </Grid>
 </Window>
