@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.ViewModel.Interfaces
 {
-    interface IDraftVM
+    public interface IDraftVM
     {
     }
 }

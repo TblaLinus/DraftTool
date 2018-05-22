@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.ViewModel
 {
-    class DraftMenuVM : ViewModelBase, IDraftMenuVM
+    public class DraftMenuVM : PageVM, IDraftMenuVM
     {
+        public string text = "test";
     }
 }

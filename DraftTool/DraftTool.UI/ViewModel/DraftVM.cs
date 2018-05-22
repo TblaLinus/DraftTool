@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.ViewModel
 {
-    class DraftVM : ViewModelBase, IDraftVM
+    public class DraftVM : PageVM, IDraftVM
     {
     }
 }

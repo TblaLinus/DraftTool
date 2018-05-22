@@ -13,7 +13,7 @@ namespace DraftTool.UI.Startup
         {
             List<Card> cardList = new List<Card>();
 
-            for(int i=1; i<=20; i++)
+            for(int i=1; i<=100; i++)
             {
                 Card card = new Card { Name = $"TestCard {i}", ImageURL = $"URL {i}", MaxNumberOfUses = 3 };
                 cardList.Add(card);
