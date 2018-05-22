@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:DraftTool.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
-        <TextBlock Text="Draft"/>
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding RoundDeck}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

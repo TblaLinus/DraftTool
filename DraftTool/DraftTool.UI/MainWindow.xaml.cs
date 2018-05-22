@@ -26,6 +26,8 @@ namespace DraftTool.UI
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
             _viewModel = viewModel;
             DataContext = _viewModel;
         }

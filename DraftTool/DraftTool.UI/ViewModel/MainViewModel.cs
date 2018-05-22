@@ -14,7 +14,7 @@ namespace DraftTool.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
-        private Func<IDraftVM> _draftVMCreator;
+        private Func<List<Card>, IDraftVM> _draftVMCreator;
         private IDraftMenuVM _draftMenuVM;
         private ICardListVM _cardListVM;
         private IPageVM _activePage;
@@ -22,10 +22,10 @@ namespace DraftTool.UI.ViewModel
         public ICommand NewDraftCommand { get; }
         public ICommand GoToCardListCommand { get; }
         public ICommand ExitApplicationCommand { get; }
-        public List<Card> CardList { get; set; }
-        
 
-        public MainViewModel(IEventAggregator eventAggregator, IDraftMenuVM draftMenuVM, ICardListVM cardListVM, Func<IDraftVM> draftVMCreator)
+        public List<Card> CardList { get; set; }
+
+        public MainViewModel(IEventAggregator eventAggregator, IDraftMenuVM draftMenuVM, ICardListVM cardListVM, Func<List<Card>, IDraftVM> draftVMCreator)
         {
             _eventAggregator = eventAggregator;
             _draftVMCreator = draftVMCreator;
@@ -58,7 +58,8 @@ namespace DraftTool.UI.ViewModel
 
         private void OnStartDraft()
         {
-            ActivePage = (IPageVM)_draftVMCreator();
+            IDraftVM draftVM = _draftVMCreator(CardList);
+            ActivePage = (IPageVM)draftVM;
         }
 
         public IPageVM ActivePage
