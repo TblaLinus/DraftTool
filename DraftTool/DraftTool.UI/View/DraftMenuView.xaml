@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Button Content="text" Margin="10"
+        <Button Content="START" FontSize="30" Margin="10"
                 Command="{Binding StartDraftCommand}"/>
     </Grid>
 </UserControl>

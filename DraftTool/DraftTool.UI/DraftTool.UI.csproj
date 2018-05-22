@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\StartDraftEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="Startup\CreateCards.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
@@ -151,9 +152,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Event\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DraftTool.Models\DraftTool.Models.csproj">
       <Project>{a7b7018f-1730-435e-a894-ca0c75eb2f80}</Project>
