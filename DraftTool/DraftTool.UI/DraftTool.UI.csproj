@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="Startup\CreateCards.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
     <Compile Include="ViewModel\DraftMenuVM.cs" />
     <Compile Include="ViewModel\DraftVM.cs" />
@@ -132,6 +133,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Event\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DraftTool.Models\DraftTool.Models.csproj">
+      <Project>{a7b7018f-1730-435e-a894-ca0c75eb2f80}</Project>
+      <Name>DraftTool.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
