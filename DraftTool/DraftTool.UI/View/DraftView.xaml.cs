@@ -24,5 +24,15 @@ namespace DraftTool.UI.View
         {
             InitializeComponent();
         }
+
+        private void AvailableList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChosenList.UnselectAll();
+        }
+
+        private void ChosenList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AvailableList.UnselectAll();
+        }
     }
 }

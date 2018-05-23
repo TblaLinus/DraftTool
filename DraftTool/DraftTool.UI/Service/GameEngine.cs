@@ -83,18 +83,18 @@ namespace DraftTool.UI.Service
             }
             else
             {
-                if (_activeCard == _numberOfCards && _activePlayer == _numberOfPlayers && _activeRound == _numberOfRounds)
+                if (args != null && _activePlayer == _numberOfPlayers && _activeRound == _numberOfRounds)
                 {
                     AddResults(args.ResultDeck);
                     _results = true;
                 }
-                else if (_activeCard == _numberOfCards && _activePlayer == _numberOfPlayers)
+                else if (args != null && _activePlayer == _numberOfPlayers)
                 {
                     AddResults(args.ResultDeck);
                     _activeCard = 0;
                     _activeRound++;
                 }
-                else if (_activeCard == _numberOfCards)
+                else if (args != null)
                 {
                     AddResults(args.ResultDeck);
                 }
