@@ -9,11 +9,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:DraftMenuVM}">
-            <view:DraftMenuView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:DraftVM}">
-            <view:DraftView/>
+        <DataTemplate DataType="{x:Type viewModel:GameVM}">
+            <view:GameView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:CardListVM}">
             <view:CardListView/>

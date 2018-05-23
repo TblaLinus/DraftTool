@@ -8,14 +8,33 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding RoundDeck}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="30" Text="Draft"/>
+        <ListBox Grid.Row="1" Grid.Column="0" BorderThickness="0" ItemsSource="{Binding AvailableCards}" SelectedItem="{Binding SelectedCard, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Row="2" Grid.Column="0" BorderThickness="0" ItemsSource="{Binding ChosenCards}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding SelectedCard.Name}"/>
+        <Button Grid.Row="2" Grid.Column="1"
+                Content="Select Card" FontSize="30" Margin="10"
+                Command="{Binding SelectedCommand}"/>
     </Grid>
 </UserControl>

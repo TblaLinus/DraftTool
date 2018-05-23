@@ -78,18 +78,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\PlayerDoneEvent.cs" />
+    <Compile Include="Event\PlayerReadyEvent.cs" />
     <Compile Include="Event\StartDraftEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="Startup\CreateCards.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
     <Compile Include="ViewModel\DraftMenuVM.cs" />
     <Compile Include="ViewModel\DraftVM.cs" />
+    <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="ViewModel\Interfaces\ICardListVM.cs" />
     <Compile Include="ViewModel\Interfaces\IDraftMenuVM.cs" />
     <Compile Include="ViewModel\Interfaces\IDraftVM.cs" />
-    <Compile Include="ViewModel\Interfaces\IPageVM.cs" />
+    <Compile Include="ViewModel\Interfaces\IGameVM.cs" />
+    <Compile Include="ViewModel\Interfaces\IPlayerReadyVM.cs" />
+    <Compile Include="ViewModel\Interfaces\IResultVM.cs" />
+    <Compile Include="ViewModel\Interfaces\IViewModelBase.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\PageVM.cs" />
+    <Compile Include="ViewModel\PlayerReadyVM.cs" />
+    <Compile Include="ViewModel\ResultVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\CardListView.xaml.cs">
       <DependentUpon>CardListView.xaml</DependentUpon>
@@ -99,6 +106,15 @@
     </Compile>
     <Compile Include="View\DraftView.xaml.cs">
       <DependentUpon>DraftView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlayerReadyView.xaml.cs">
+      <DependentUpon>PlayerReadyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultView.xaml.cs">
+      <DependentUpon>ResultView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +137,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DraftView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlayerReadyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ResultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

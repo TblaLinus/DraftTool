@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using DraftTool.UI.ViewModel.Interfaces;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace DraftTool.UI.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : IViewModelBase, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

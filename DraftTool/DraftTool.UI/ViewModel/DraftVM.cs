@@ -1,59 +1,58 @@
 ﻿using DraftTool.Models;
+using DraftTool.UI.Event;
 using DraftTool.UI.ViewModel.Interfaces;
+using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
-    public class DraftVM : PageVM, IDraftVM
+    public class DraftVM : ViewModelBase, IDraftVM
     {
-        private int _numberOfRounds { get; }
-        private int _numberOfCards { get; }
-        private List<Card> _availableCards { get; set; }
-        private List<Card>[] _startDecks { get;}
-        private List<Card> _roundDeck;
-        private Random _rnd;
+        private IEventAggregator _eventAggregator;
+        private Card _selectedCard;
 
+        public ObservableCollection<Card> AvailableCards { get; set; }
+        public ObservableCollection<Card> ChosenCards { get; set; }
+        public ICommand SelectedCommand { get; }
 
-        public DraftVM(List<Card> availableCards)
+        public DraftVM(IEventAggregator eventAggregator)
         {
-            _numberOfRounds = 4;
-            _numberOfCards = 10;
-            _availableCards = availableCards;
-            _rnd = new Random();
-            _startDecks = GetStartDecks();
-            _roundDeck = _startDecks[0];
+            _eventAggregator = eventAggregator;
+
+            ChosenCards = new ObservableCollection<Card>();
+
+            SelectedCommand = new DelegateCommand(OnSelected);
         }
 
-        public List<Card>[] GetStartDecks()
+        public Card SelectedCard
         {
-            List<Card> cardPool = new List<Card>(_availableCards);
-            List<Card>[] decks = new List<Card>[_numberOfRounds];
-
-            for (int i = 0; i < _numberOfRounds; i++)
-            {
-                decks[i] = new List<Card>();
-                for (int j = 0; j < _numberOfCards; j++)
-                {
-                    Card card = cardPool[_rnd.Next(0, cardPool.Count)];
-                    decks[i].Add(card);
-                    cardPool.Remove(card);
-                }
-            }
-
-            return decks;
-        }
-
-        public List<Card> RoundDeck
-        {
-            get { return _roundDeck; }
+            get { return _selectedCard; }
             set
             {
-                _roundDeck = value;
+                _selectedCard = value;
                 OnPropertyChanged();
+            }
+        }
+
+
+        private void OnSelected()
+        {
+            ChosenCards.Add(SelectedCard);
+            AvailableCards.Remove(SelectedCard);
+            if (AvailableCards.Count() == 0)
+            {
+                _eventAggregator.GetEvent<PlayerDoneEvent>().Publish(new PlayerDoneEventArgs { ResultDeck = ChosenCards });
+            }
+            else
+            {
+                _eventAggregator.GetEvent<PlayerDoneEvent>().Publish(new PlayerDoneEventArgs { ResultDeck = null });
             }
         }
     }

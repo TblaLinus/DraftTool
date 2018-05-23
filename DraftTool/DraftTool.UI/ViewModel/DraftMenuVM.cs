@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
-    public class DraftMenuVM : PageVM, IDraftMenuVM
+    public class DraftMenuVM : ViewModelBase, IDraftMenuVM
     {
         private IEventAggregator _eventAggregator;
 

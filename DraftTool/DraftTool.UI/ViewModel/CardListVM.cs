@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.ViewModel
 {
-    public class CardListVM : PageVM, ICardListVM
+    public class CardListVM : ViewModelBase, ICardListVM
     {
     }
 }

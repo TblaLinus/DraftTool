@@ -14,66 +14,48 @@ namespace DraftTool.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
-        private Func<List<Card>, IDraftVM> _draftVMCreator;
-        private IDraftMenuVM _draftMenuVM;
+        private Func<IGameVM> _gameVMCreator;
         private ICardListVM _cardListVM;
-        private IPageVM _activePage;
+        private IViewModelBase _activePage;
 
         public ICommand NewDraftCommand { get; }
         public ICommand GoToCardListCommand { get; }
         public ICommand ExitApplicationCommand { get; }
 
-        public List<Card> CardList { get; set; }
-
-        public MainViewModel(IEventAggregator eventAggregator, IDraftMenuVM draftMenuVM, ICardListVM cardListVM, Func<List<Card>, IDraftVM> draftVMCreator)
+        public MainViewModel(IEventAggregator eventAggregator, ICardListVM cardListVM, Func<IGameVM> gameVMCreator)
         {
             _eventAggregator = eventAggregator;
-            _draftVMCreator = draftVMCreator;
-            _draftMenuVM = draftMenuVM;
             _cardListVM = cardListVM;
+            _gameVMCreator = gameVMCreator;
 
             NewDraftCommand = new DelegateCommand(OnNewDraft);
             GoToCardListCommand = new DelegateCommand(OnGoToCardList);
             ExitApplicationCommand = new DelegateCommand(OnExitApplication);
-
-            _eventAggregator.GetEvent<Event.StartDraftEvent>().Subscribe(OnStartDraft);
-
-            CardList = Startup.CreateCards.Create();
         }
 
-        private void OnNewDraft()
+        public IViewModelBase ActivePage
         {
-            ActivePage = (IPageVM)_draftMenuVM;
-        }
-
-        private void OnGoToCardList()
-        {
-            ActivePage = (IPageVM)_cardListVM;
-        }
-
-        private void OnExitApplication()
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void OnStartDraft()
-        {
-            IDraftVM draftVM = _draftVMCreator(CardList);
-            ActivePage = (IPageVM)draftVM;
-        }
-
-        public IPageVM ActivePage
-        {
-            get
-            {
-                return _activePage;
-            }
-
+            get { return _activePage; }
             set
             {
                 _activePage = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void OnNewDraft()
+        {
+            ActivePage = (IViewModelBase)_gameVMCreator();
+        }
+
+        private void OnGoToCardList()
+        {
+            ActivePage = (IViewModelBase)_cardListVM;
+        }
+
+        private void OnExitApplication()
+        {
+            Application.Current.Shutdown();
         }
     }
 }
