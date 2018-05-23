@@ -14,6 +14,7 @@ namespace DraftTool.UI.Service
     {
         private int _activeRound;
         private int _activePlayer;
+        private int _activeCard;
         private bool _results;
         private bool _clear;
         private IEventAggregator _eventAggregator;
@@ -31,6 +32,7 @@ namespace DraftTool.UI.Service
             _eventAggregator = eventAggregator;
             _activeRound = 1;
             _activePlayer = 1;
+            _activeCard = 1;
             _results = false;
 
             CardList = Startup.CreateCards.Create();
@@ -65,7 +67,7 @@ namespace DraftTool.UI.Service
             else
             {
                 _eventAggregator.GetEvent<ShowDraftPageEvent>().Publish(
-                    new ShowDraftPageEventArgs { Player = _activePlayer, Clear = _clear, AvailableDeck = _draftDecks[_activeRound - 1][_activePlayer - 1] });
+                    new ShowDraftPageEventArgs { Player = _activePlayer, Clear = _clear, AvailableDeck = _draftDecks[_activeRound - 1][(_activePlayer + _activeCard - 2) % _numberOfPlayers] });
             }
         }
 
@@ -81,23 +83,24 @@ namespace DraftTool.UI.Service
             }
             else
             {
-                if (args != null && _activePlayer == _numberOfPlayers && _activeRound == _numberOfRounds)
+                if (_activeCard == _numberOfCards && _activePlayer == _numberOfPlayers && _activeRound == _numberOfRounds)
                 {
                     AddResults(args.ResultDeck);
                     _results = true;
                 }
-                else if (args != null && _activePlayer == _numberOfPlayers)
+                else if (_activeCard == _numberOfCards && _activePlayer == _numberOfPlayers)
                 {
                     AddResults(args.ResultDeck);
+                    _activeCard = 0;
                     _activeRound++;
                 }
-                else if (args != null)
+                else if (_activeCard == _numberOfCards)
                 {
                     AddResults(args.ResultDeck);
                 }
                 _clear = (args != null && _activePlayer == _numberOfPlayers);
             }            
-            SetActivePlayerAndRound();
+            SetActive();
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(
                 new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results });
         }
@@ -110,11 +113,12 @@ namespace DraftTool.UI.Service
             }
         }
 
-        private void SetActivePlayerAndRound()
+        private void SetActive()
         {
             if (_activePlayer == _numberOfPlayers)
             {
                 _activePlayer = 1;
+                _activeCard++;
             }
             else
             {

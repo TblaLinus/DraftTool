@@ -14,7 +14,7 @@ namespace DraftTool.UI.ViewModel
     public class DraftMenuVM : ViewModelBase, IDraftMenuVM
     {
         private const int _numberOfRounds = 4;
-        private const int _numberOfPlayers = 2;
+        private const int _numberOfPlayers = 4;
         private const int _numberOfCards = 3;
         private IEventAggregator _eventAggregator;
 
