@@ -81,7 +81,12 @@
     <Compile Include="Event\FinishedDraftEvent.cs" />
     <Compile Include="Event\PlayerDoneEvent.cs" />
     <Compile Include="Event\PlayerReadyEvent.cs" />
+    <Compile Include="Event\ShowDraftPageEvent.cs" />
+    <Compile Include="Event\ShowReadyPageEvent.cs" />
+    <Compile Include="Event\ShowResultPageEvent.cs" />
     <Compile Include="Event\StartDraftEvent.cs" />
+    <Compile Include="Service\GameEngine.cs" />
+    <Compile Include="Service\IGameEngine.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="Startup\CreateCards.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />

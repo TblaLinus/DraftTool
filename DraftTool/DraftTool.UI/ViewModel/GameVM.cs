@@ -1,5 +1,6 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
+using DraftTool.UI.Service;
 using DraftTool.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System;
@@ -13,44 +14,30 @@ namespace DraftTool.UI.ViewModel
 {
     public class GameVM : ViewModelBase, IGameVM
     {
-        private const int _numberOfRounds = 4;
-        private const int _numberOfPlayers = 2;
-        private const int _numberOfCards = 10;
-        private int _activeRound;
-        private int _activePlayer;
-        private bool _results;
         private IEventAggregator _eventAggregator;
+        private IGameEngine _gameEngine;
         private IDraftMenuVM _draftMenuVM;
         private IPlayerReadyVM _playerReadyVM;
         private Func<IDraftVM> _draftVMCreator;
         private IDraftVM[] _playerDraftVM;
         private IResultVM _resultVM;
         private IViewModelBase _activePage;
-        private ObservableCollection<Card>[,] _draftDecks;
-        private ObservableCollection<Card>[] _resultDecks;
-        private Random _rnd = new Random();
 
-        public List<Card> CardList { get; set; }
-
-        public GameVM(IEventAggregator eventAggregator, IDraftMenuVM draftMenuVM, IPlayerReadyVM playerReadyVM, Func<IDraftVM> draftVMCreator, IResultVM resultVM)
+        public GameVM(IEventAggregator eventAggregator, IGameEngine gameEngine, IDraftMenuVM draftMenuVM, IPlayerReadyVM playerReadyVM, Func<IDraftVM> draftVMCreator, IResultVM resultVM)
         {
-            _activeRound = 1;
-            _activePlayer = 1;
-            _results = false;
             _eventAggregator = eventAggregator;
+            _gameEngine = gameEngine;
             _draftVMCreator = draftVMCreator;
             _draftMenuVM = draftMenuVM;
             _playerReadyVM = playerReadyVM;
             _resultVM = resultVM;
-            _playerDraftVM = new IDraftVM[_numberOfPlayers];
-            _resultDecks = new ObservableCollection<Card>[_numberOfPlayers];
 
-            CardList = Startup.CreateCards.Create();
             ActivePage = (IViewModelBase)_draftMenuVM;
 
             _eventAggregator.GetEvent<StartDraftEvent>().Subscribe(OnStartDraft);
-            _eventAggregator.GetEvent<PlayerReadyEvent>().Subscribe(OnPlayerReady);
-            _eventAggregator.GetEvent<PlayerDoneEvent>().Subscribe(OnPlayerDone);
+            _eventAggregator.GetEvent<ShowReadyPageEvent>().Subscribe(OnShowReadyPage);
+            _eventAggregator.GetEvent<ShowDraftPageEvent>().Subscribe(OnShowDraftPage);
+            _eventAggregator.GetEvent<ShowResultPageEvent>().Subscribe(OnShowResultPage);
         }
 
         public IViewModelBase ActivePage
@@ -63,82 +50,34 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
-        private void OnStartDraft()
+        private void OnStartDraft(StartDraftEventArgs args)
         {
-            _draftDecks = GetDraftDecks();
-            for (int i = 0; i < _playerDraftVM.Length; i++)
+            _playerDraftVM = new IDraftVM[args.NumberOfPlayers];
+
+            for (int i = 0; i < args.NumberOfPlayers; i++)
             {
                 _playerDraftVM[i] = _draftVMCreator();
-                _playerDraftVM[i].AvailableCards = _draftDecks[0, i];
             }
+        }
+
+        private void OnShowReadyPage(ShowReadyPageEventArgs args)
+        {
+            _playerReadyVM.Results = args.Results;
+            _playerReadyVM.Player = args.Player;
             ActivePage = (IViewModelBase)_playerReadyVM;
         }
 
-        private void OnPlayerReady()
+        private void OnShowDraftPage(ShowDraftPageEventArgs args)
         {
-            if (_results)
-            {
-                _resultVM.Player = _activePlayer;
-                _resultVM.ResultDeck = _resultDecks[_activePlayer - 1];
-                ActivePage = (IViewModelBase)_resultVM;
-            }
-            else
-            {
-                ActivePage = (IViewModelBase)_playerDraftVM[_activePlayer - 1];
-            }
+            _playerDraftVM[args.Player - 1].AvailableCards = args.AvailableDeck;
+            ActivePage = (IViewModelBase)_playerDraftVM[args.Player -1];
         }
 
-        private void OnPlayerDone(PlayerDoneEventArgs args)
+        private void OnShowResultPage(ShowResultPageEventArgs args)
         {
-            if (args != null)
-            {
-                _resultDecks[_activePlayer - 1] = args.ResultDeck;
-                if (true &&_activePlayer == _numberOfPlayers)
-                {
-                    _playerReadyVM.Results = true;
-                }
-            }
-            if (_activePlayer == _numberOfPlayers)
-            {
-                if (_results)
-                {
-                    _eventAggregator.GetEvent<FinishedDraftEvent>().Publish();
-                    return;
-                }
-                else
-                {
-                    _activePlayer = 1;
-                }
-            }
-            else
-            {
-                _activePlayer++;
-            }
-            _results = _playerReadyVM.Results;
-            _playerReadyVM.Player = _activePlayer;
-            ActivePage = (IViewModelBase)_playerReadyVM;
+            _resultVM.Player = args.Player;
+            _resultVM.ResultDeck = args.ResultDeck;
+            ActivePage = (IViewModelBase)_resultVM;
         }
-
-        private ObservableCollection<Card>[,] GetDraftDecks()
-        {
-            ObservableCollection<Card>[,] decks = new ObservableCollection<Card>[_numberOfRounds, _numberOfPlayers];
-
-            for (int i = 0; i < _numberOfRounds; i++)
-            {
-                for (int j = 0; j < _numberOfPlayers; j++)
-                {
-                    decks[i, j] = new ObservableCollection<Card>();
-                    for (int k = 0; k < _numberOfCards; k++)
-                    {
-                        Card card = CardList[_rnd.Next(0, CardList.Count)];
-                        decks[i, j].Add(card);
-                        CardList.Remove(card);
-                    }
-                }
-            }
-
-            return decks;
-        }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DraftTool.UI.Service;
 using DraftTool.UI.ViewModel;
 using DraftTool.UI.ViewModel.Interfaces;
 using Prism.Events;
@@ -12,6 +13,7 @@ namespace DraftTool.UI.Startup
             var builder = new ContainerBuilder();
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<GameEngine>().As<IGameEngine>().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();

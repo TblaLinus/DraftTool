@@ -13,6 +13,9 @@ namespace DraftTool.UI.ViewModel
 {
     public class DraftMenuVM : ViewModelBase, IDraftMenuVM
     {
+        private const int _numberOfRounds = 4;
+        private const int _numberOfPlayers = 2;
+        private const int _numberOfCards = 10;
         private IEventAggregator _eventAggregator;
 
         public ICommand StartDraftCommand { get; }
@@ -26,7 +29,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnStartDraft()
         {
-            _eventAggregator.GetEvent<StartDraftEvent>().Publish();
+            _eventAggregator.GetEvent<StartDraftEvent>().Publish(new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = _numberOfPlayers, NumberOfCards = _numberOfCards });
         }
     }
 }

@@ -8,7 +8,14 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Event
 {
-    public class StartDraftEvent : PubSubEvent
+    public class StartDraftEvent : PubSubEvent<StartDraftEventArgs>
     {
+    }
+
+    public class StartDraftEventArgs
+    {
+        public int NumberOfRounds { get; set; }
+        public int NumberOfPlayers { get; set; }
+        public int NumberOfCards { get; set; }
     }
 }
