@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Event
 {
-    class PlayerReadyEvent : PubSubEvent
+    class FinishedDraftEvent : PubSubEvent
     {
     }
 }

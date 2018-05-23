@@ -41,7 +41,6 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
-
         private void OnSelected()
         {
             ChosenCards.Add(SelectedCard);
@@ -52,7 +51,7 @@ namespace DraftTool.UI.ViewModel
             }
             else
             {
-                _eventAggregator.GetEvent<PlayerDoneEvent>().Publish(new PlayerDoneEventArgs { ResultDeck = null });
+                _eventAggregator.GetEvent<PlayerDoneEvent>().Publish(null);
             }
         }
     }

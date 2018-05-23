@@ -18,6 +18,7 @@ namespace DraftTool.UI.ViewModel
         private const int _numberOfCards = 10;
         private int _activeRound;
         private int _activePlayer;
+        private bool _results;
         private IEventAggregator _eventAggregator;
         private IDraftMenuVM _draftMenuVM;
         private IPlayerReadyVM _playerReadyVM;
@@ -33,11 +34,14 @@ namespace DraftTool.UI.ViewModel
 
         public GameVM(IEventAggregator eventAggregator, IDraftMenuVM draftMenuVM, IPlayerReadyVM playerReadyVM, Func<IDraftVM> draftVMCreator, IResultVM resultVM)
         {
+            _activeRound = 1;
             _activePlayer = 1;
+            _results = false;
             _eventAggregator = eventAggregator;
             _draftVMCreator = draftVMCreator;
             _draftMenuVM = draftMenuVM;
             _playerReadyVM = playerReadyVM;
+            _resultVM = resultVM;
             _playerDraftVM = new IDraftVM[_numberOfPlayers];
             _resultDecks = new ObservableCollection<Card>[_numberOfPlayers];
 
@@ -70,37 +74,47 @@ namespace DraftTool.UI.ViewModel
             ActivePage = (IViewModelBase)_playerReadyVM;
         }
 
-        private void OnPlayerReady(PlayerReadyEventArgs args)
+        private void OnPlayerReady()
         {
-            if (args.Results)
+            if (_results)
             {
-                _resultVM.Player = args.Player;
+                _resultVM.Player = _activePlayer;
+                _resultVM.ResultDeck = _resultDecks[_activePlayer - 1];
                 ActivePage = (IViewModelBase)_resultVM;
             }
             else
             {
-                ActivePage = (IViewModelBase)_playerDraftVM[args.Player - 1];
+                ActivePage = (IViewModelBase)_playerDraftVM[_activePlayer - 1];
             }
         }
 
         private void OnPlayerDone(PlayerDoneEventArgs args)
         {
-            if (args.ResultDeck != null)
+            if (args != null)
             {
                 _resultDecks[_activePlayer - 1] = args.ResultDeck;
-                if (_activePlayer == _numberOfPlayers)
+                if (true &&_activePlayer == _numberOfPlayers)
                 {
-                    _playerReadyVM.DraftFinished = true;
+                    _playerReadyVM.Results = true;
                 }
             }
             if (_activePlayer == _numberOfPlayers)
             {
-                _activePlayer = 1;
+                if (_results)
+                {
+                    _eventAggregator.GetEvent<FinishedDraftEvent>().Publish();
+                    return;
+                }
+                else
+                {
+                    _activePlayer = 1;
+                }
             }
             else
             {
                 _activePlayer++;
             }
+            _results = _playerReadyVM.Results;
             _playerReadyVM.Player = _activePlayer;
             ActivePage = (IViewModelBase)_playerReadyVM;
         }

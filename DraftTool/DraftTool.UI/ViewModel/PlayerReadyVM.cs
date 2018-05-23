@@ -17,13 +17,13 @@ namespace DraftTool.UI.ViewModel
         private string _readyText;
         private IEventAggregator _eventAggregator;
 
-        public bool DraftFinished { get; set; }
+        public bool Results { get; set; }
         public ICommand ReadyCommand { get; }
 
         public PlayerReadyVM(IEventAggregator eventAggregator)
         {
             Player = 1;
-            DraftFinished = false;
+            Results = false;
 
             _eventAggregator = eventAggregator;
 
@@ -37,7 +37,7 @@ namespace DraftTool.UI.ViewModel
             {
                 _player = value;
                 OnPropertyChanged();
-                if (DraftFinished)
+                if (Results)
                 {
                     ReadyText = $"Player{_player}'s cards";
                 }
@@ -60,7 +60,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnReady()
         {
-            _eventAggregator.GetEvent<PlayerReadyEvent>().Publish(new PlayerReadyEventArgs { Player = Player, Results = DraftFinished});
+            _eventAggregator.GetEvent<PlayerReadyEvent>().Publish();
         }
     }
 }

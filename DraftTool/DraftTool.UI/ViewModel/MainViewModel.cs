@@ -1,6 +1,7 @@
 ﻿using Autofac.Features.Indexed;
 using Autofac.Features.OwnedInstances;
 using DraftTool.Models;
+using DraftTool.UI.Event;
 using DraftTool.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
@@ -28,6 +29,8 @@ namespace DraftTool.UI.ViewModel
             _cardListVM = cardListVM;
             _gameVMCreator = gameVMCreator;
 
+            _eventAggregator.GetEvent<FinishedDraftEvent>().Subscribe(OnFinishedDraft);
+
             NewDraftCommand = new DelegateCommand(OnNewDraft);
             GoToCardListCommand = new DelegateCommand(OnGoToCardList);
             ExitApplicationCommand = new DelegateCommand(OnExitApplication);
@@ -51,6 +54,11 @@ namespace DraftTool.UI.ViewModel
         private void OnGoToCardList()
         {
             ActivePage = (IViewModelBase)_cardListVM;
+        }
+
+        private void OnFinishedDraft()
+        {
+            ActivePage = null;
         }
 
         private void OnExitApplication()
