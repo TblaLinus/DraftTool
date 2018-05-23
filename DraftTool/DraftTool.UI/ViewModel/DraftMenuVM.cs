@@ -15,7 +15,7 @@ namespace DraftTool.UI.ViewModel
     {
         private const int _numberOfRounds = 4;
         private const int _numberOfPlayers = 2;
-        private const int _numberOfCards = 10;
+        private const int _numberOfCards = 3;
         private IEventAggregator _eventAggregator;
 
         public ICommand StartDraftCommand { get; }

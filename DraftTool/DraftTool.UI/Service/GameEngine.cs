@@ -15,6 +15,7 @@ namespace DraftTool.UI.Service
         private int _activeRound;
         private int _activePlayer;
         private bool _results;
+        private bool _clear;
         private IEventAggregator _eventAggregator;
         private ObservableCollection<Card>[][] _draftDecks;
         private ObservableCollection<Card>[] _resultDecks;
@@ -46,6 +47,10 @@ namespace DraftTool.UI.Service
             _numberOfCards = args.NumberOfCards;
             _draftDecks = GetDraftDecks();
             _resultDecks = new ObservableCollection<Card>[_numberOfPlayers];
+            for (int i = 0; i < _numberOfPlayers; i++)
+            {
+                _resultDecks[i] = new ObservableCollection<Card>();
+            }
 
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results});
         }
@@ -60,7 +65,7 @@ namespace DraftTool.UI.Service
             else
             {
                 _eventAggregator.GetEvent<ShowDraftPageEvent>().Publish(
-                    new ShowDraftPageEventArgs { Player = _activePlayer, AvailableDeck = _draftDecks[_activeRound - 1][_activePlayer - 1] });
+                    new ShowDraftPageEventArgs { Player = _activePlayer, Clear = _clear, AvailableDeck = _draftDecks[_activeRound - 1][_activePlayer - 1] });
             }
         }
 
@@ -76,22 +81,36 @@ namespace DraftTool.UI.Service
             }
             else
             {
-                if (args != null && _activePlayer == _numberOfPlayers)
+                if (args != null && _activePlayer == _numberOfPlayers && _activeRound == _numberOfRounds)
                 {
-                    _resultDecks[_activePlayer - 1] = args.ResultDeck;
+                    AddResults(args.ResultDeck);
                     _results = true;
+                }
+                else if (args != null && _activePlayer == _numberOfPlayers)
+                {
+                    AddResults(args.ResultDeck);
+                    _activeRound++;
                 }
                 else if (args != null)
                 {
-                    _resultDecks[_activePlayer - 1] = args.ResultDeck;
+                    AddResults(args.ResultDeck);
                 }
+                _clear = (args != null && _activePlayer == _numberOfPlayers);
             }            
-            SetActivePlayer();
+            SetActivePlayerAndRound();
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(
                 new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results });
         }
 
-        private void SetActivePlayer()
+        private void AddResults(ObservableCollection<Card> cards)
+        {
+            foreach (Card card in cards)
+            {
+                _resultDecks[_activePlayer - 1].Add(card);
+            }
+        }
+
+        private void SetActivePlayerAndRound()
         {
             if (_activePlayer == _numberOfPlayers)
             {

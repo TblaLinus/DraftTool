@@ -11,5 +11,6 @@ namespace DraftTool.UI.ViewModel.Interfaces
     public interface IDraftVM
     {
         ObservableCollection<Card> AvailableCards { get; set; }
+        ObservableCollection<Card> ChosenCards { get; set; }
     }
 }

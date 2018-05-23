@@ -16,6 +16,7 @@ namespace DraftTool.UI.Event
     public class ShowDraftPageEventArgs
     {
         public int Player { get; set; }
+        public bool Clear { get; set; }
         public ObservableCollection<Card> AvailableDeck { get; set; }
     }
 }

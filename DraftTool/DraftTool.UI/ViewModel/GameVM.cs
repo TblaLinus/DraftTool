@@ -69,6 +69,13 @@ namespace DraftTool.UI.ViewModel
 
         private void OnShowDraftPage(ShowDraftPageEventArgs args)
         {
+            if (args.Clear)
+            {
+                foreach (IDraftVM draftVM in _playerDraftVM)
+                {
+                    draftVM.ChosenCards.Clear();
+                }
+            }
             _playerDraftVM[args.Player - 1].AvailableCards = args.AvailableDeck;
             ActivePage = (IViewModelBase)_playerDraftVM[args.Player -1];
         }
