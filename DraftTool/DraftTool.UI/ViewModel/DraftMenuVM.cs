@@ -26,17 +26,19 @@ namespace DraftTool.UI.ViewModel
         private ICardRepo _cardRepo;
 
         public ObservableCollection<int> NumberOfPlayersOptions { get; }
+        public ObservableCollection<string> SideOptions { get; }
         public ICommand StartDraftCommand { get; }
 
         public DraftMenuVM(IEventAggregator eventAggregator, ICardRepo cardRepo)
         {
             NumberOfPlayersOptions = new ObservableCollection<int> {2, 3, 4, 5, 6};
+            SideOptions = new ObservableCollection<string> {"Corp", "Runner"};
+            _numberOfPlayers = 2;
             _side = "Corp";
             _set = "Core";
 
             _eventAggregator = eventAggregator;
             _cardRepo = cardRepo;
-            _cards = _cardRepo.GetDecks(_side, _set);
 
             StartDraftCommand = new DelegateCommand(OnStartDraft);
         }
@@ -51,10 +53,21 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
+        public string Side
+        {
+            get { return _side; }
+            set
+            {
+                _side = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void OnStartDraft()
         {
+            _cards = _cardRepo.GetDecks(Side, _set);
             _eventAggregator.GetEvent<StartDraftEvent>().Publish(
-                new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = _numberOfPlayers, NumberOfCards = _numberOfCards, CardList = _cards });
+                new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = NumberOfPlayers, NumberOfCards = _numberOfCards, CardList = _cards });
         }
     }
 }

@@ -53,23 +53,26 @@
 
             <TextBox HorizontalAlignment="Center"  Margin="10" FontSize="50" FontWeight="Bold" BorderThickness="0" Background="{DynamicResource BackgroundBrush}">Select Side</TextBox>
 
-            <!--<ListBox Name="ChosenList" Grid.Row="3" Grid.Column="0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
-                 SelectionChanged="ChosenList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ChosenCards}" SelectedItem="{Binding SelectedChosenCard, Mode=TwoWay}">
+            <ListBox HorizontalAlignment="Center" ItemsSource="{Binding SideOptions}" SelectedItem="{Binding Side}" Background="{DynamicResource BackgroundBrush}" BorderThickness="0">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Image VerticalAlignment="Center" HorizontalAlignment="Center" Height="150" Margin="1" Source="{Binding ImageURL}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <RadioButton Background="{DynamicResource BackgroundBrush}" Style="{StaticResource radioButtonSize}" Margin="10" 
+                                                 Content="{TemplateBinding Content}" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected}">
+                                    </RadioButton>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
-
-            <RadioButton Name="TwoButton" GroupName="players" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource radioButtonSize}" Margin="10" Checked="TwoButton_Checked">
-                <TextBlock HorizontalAlignment="Center" FontWeight="Bold">2</TextBlock>
-            </RadioButton>-->
             <!--<Grid HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
