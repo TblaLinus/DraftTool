@@ -88,7 +88,8 @@
     <Compile Include="Service\GameEngine.cs" />
     <Compile Include="Service\IGameEngine.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
-    <Compile Include="Startup\CreateCards.cs" />
+    <Compile Include="Startup\CardRepo.cs" />
+    <Compile Include="Startup\ICardRepo.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
     <Compile Include="ViewModel\DraftMenuVM.cs" />
     <Compile Include="ViewModel\DraftVM.cs" />

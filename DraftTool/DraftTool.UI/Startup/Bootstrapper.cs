@@ -13,6 +13,7 @@ namespace DraftTool.UI.Startup
             var builder = new ContainerBuilder();
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<CardRepo>().As<ICardRepo>().SingleInstance();
             builder.RegisterType<GameEngine>().As<IGameEngine>().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();

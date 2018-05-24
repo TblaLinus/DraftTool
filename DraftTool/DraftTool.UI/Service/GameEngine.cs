@@ -22,9 +22,9 @@ namespace DraftTool.UI.Service
         private ObservableCollection<Card>[] _resultDecks;
         private Random _rnd = new Random();
 
-        public int _numberOfRounds { get; set; }
-        public int _numberOfPlayers { get; set; }
-        public int _numberOfCards { get; set; }
+        public int NumberOfRounds { get; set; }
+        public int NumberOfPlayers { get; set; }
+        public int NumberOfCards { get; set; }
         public List<Card> CardList { get; set; }
 
         public GameEngine(IEventAggregator eventAggregator)
@@ -35,8 +35,6 @@ namespace DraftTool.UI.Service
             _activeCard = 1;
             _results = false;
 
-            CardList = Startup.CreateCards.Create();
-
             _eventAggregator.GetEvent<StartDraftEvent>().Subscribe(OnStartDraft);
             _eventAggregator.GetEvent<PlayerReadyEvent>().Subscribe(OnPlayerReady);
             _eventAggregator.GetEvent<PlayerDoneEvent>().Subscribe(OnPlayerDone);
@@ -44,12 +42,13 @@ namespace DraftTool.UI.Service
 
         private void OnStartDraft(StartDraftEventArgs args)
         {
-            _numberOfRounds = args.NumberOfRounds;
-            _numberOfPlayers = args.NumberOfPlayers;
-            _numberOfCards = args.NumberOfCards;
+            NumberOfRounds = args.NumberOfRounds;
+            NumberOfPlayers = args.NumberOfPlayers;
+            NumberOfCards = args.NumberOfCards;
+            CardList = args.CardList;
             _draftDecks = GetDraftDecks();
-            _resultDecks = new ObservableCollection<Card>[_numberOfPlayers];
-            for (int i = 0; i < _numberOfPlayers; i++)
+            _resultDecks = new ObservableCollection<Card>[NumberOfPlayers];
+            for (int i = 0; i < NumberOfPlayers; i++)
             {
                 _resultDecks[i] = new ObservableCollection<Card>();
             }
@@ -67,7 +66,7 @@ namespace DraftTool.UI.Service
             else
             {
                 _eventAggregator.GetEvent<ShowDraftPageEvent>().Publish(
-                    new ShowDraftPageEventArgs { Player = _activePlayer, Clear = _clear, AvailableDeck = _draftDecks[_activeRound - 1][(_activePlayer + _activeCard - 2) % _numberOfPlayers] });
+                    new ShowDraftPageEventArgs { Player = _activePlayer, Clear = _clear, AvailableDeck = _draftDecks[_activeRound - 1][(_activePlayer + _activeCard - 2) % NumberOfPlayers] });
             }
         }
 
@@ -75,7 +74,7 @@ namespace DraftTool.UI.Service
         {
             if (_results)
             {
-                if (_activePlayer == _numberOfPlayers)
+                if (_activePlayer == NumberOfPlayers)
                 {
                     _eventAggregator.GetEvent<FinishedDraftEvent>().Publish();
                     return;
@@ -83,12 +82,12 @@ namespace DraftTool.UI.Service
             }
             else
             {
-                if (args != null && _activePlayer == _numberOfPlayers && _activeRound == _numberOfRounds)
+                if (args != null && _activePlayer == NumberOfPlayers && _activeRound == NumberOfRounds)
                 {
                     AddResults(args.ResultDeck);
                     _results = true;
                 }
-                else if (args != null && _activePlayer == _numberOfPlayers)
+                else if (args != null && _activePlayer == NumberOfPlayers)
                 {
                     AddResults(args.ResultDeck);
                     _activeCard = 0;
@@ -98,7 +97,7 @@ namespace DraftTool.UI.Service
                 {
                     AddResults(args.ResultDeck);
                 }
-                _clear = (args != null && _activePlayer == _numberOfPlayers);
+                _clear = (args != null && _activePlayer == NumberOfPlayers);
             }            
             SetActive();
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(
@@ -115,7 +114,7 @@ namespace DraftTool.UI.Service
 
         private void SetActive()
         {
-            if (_activePlayer == _numberOfPlayers)
+            if (_activePlayer == NumberOfPlayers)
             {
                 _activePlayer = 1;
                 _activeCard++;
@@ -128,15 +127,15 @@ namespace DraftTool.UI.Service
 
         private ObservableCollection<Card>[][] GetDraftDecks()
         {
-            ObservableCollection<Card>[][] decks = new ObservableCollection<Card>[_numberOfRounds][];
+            ObservableCollection<Card>[][] decks = new ObservableCollection<Card>[NumberOfRounds][];
 
-            for (int i = 0; i < _numberOfRounds; i++)
+            for (int i = 0; i < NumberOfRounds; i++)
             {
-                decks[i] = new ObservableCollection<Card>[_numberOfPlayers];
-                for (int j = 0; j < _numberOfPlayers; j++)
+                decks[i] = new ObservableCollection<Card>[NumberOfPlayers];
+                for (int j = 0; j < NumberOfPlayers; j++)
                 {
                     decks[i][j] = new ObservableCollection<Card>();
-                    for (int k = 0; k < _numberOfCards; k++)
+                    for (int k = 0; k < NumberOfCards; k++)
                     {
                         Card card = CardList[_rnd.Next(0, CardList.Count)];
                         decks[i][j].Add(card);

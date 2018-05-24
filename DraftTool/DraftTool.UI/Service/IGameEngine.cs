@@ -8,8 +8,8 @@ namespace DraftTool.UI.Service
 {
     public interface IGameEngine
     {
-        int _numberOfRounds { get; set; }
-        int _numberOfPlayers { get; set; }
-        int _numberOfCards { get; set; }
+        int NumberOfRounds { get; set; }
+        int NumberOfPlayers { get; set; }
+        int NumberOfCards { get; set; }
     }
 }

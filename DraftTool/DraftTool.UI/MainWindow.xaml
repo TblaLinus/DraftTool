@@ -7,8 +7,10 @@
         xmlns:view="clr-namespace:DraftTool.UI.View"
         xmlns:viewModel="clr-namespace:DraftTool.UI.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Background="{DynamicResource BackgroundBrush}">
     <Window.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="DimGray"/>
         <DataTemplate DataType="{x:Type viewModel:GameVM}">
             <view:GameView/>
         </DataTemplate>
