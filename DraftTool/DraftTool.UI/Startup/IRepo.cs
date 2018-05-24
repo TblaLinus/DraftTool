@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Startup
 {
-    public interface  ICardRepo
+    public interface  IRepo
     {
-        List<Card> GetDecks(string side, string set);
+        List<Card> GetDecks(string side, IEnumerable<string> set);
+        List<Set> Sets { get; }
     }
 }

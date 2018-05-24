@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DraftTool.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
         <Style x:Key="radioButtonSize" TargetType="{x:Type RadioButton}">
             <Setter Property="LayoutTransform">
@@ -73,69 +73,31 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
-            <!--<Grid HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
 
-                <RadioButton Name="RunnerButton" GroupName="side" Grid.Row="0" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource radioButtonSize}" Checked="RunnerButton_Checked">
-                    <TextBlock FontWeight="Bold">Runner</TextBlock>
-                </RadioButton>
-                <RadioButton Name="CorpButton" GroupName="side" Grid.Row="1" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource radioButtonSize}" Checked="CorpButton_Checked">
-                    <TextBlock FontWeight="Bold">Corporation</TextBlock>
-                </RadioButton>
-            </Grid>
+            <TextBox HorizontalAlignment="Center" FontSize="50" FontWeight="Bold" BorderThickness="0" Background="{DynamicResource BackgroundBrush}">Select available sets</TextBox>
 
-            <TextBox HorizontalAlignment="Center" FontSize="50" FontWeight="Bold" BorderThickness="0" Background="{DynamicResource BackgroundBrush}">Select available sets</TextBox>-->
+            <ListBox HorizontalAlignment="Center" ItemsSource="{Binding Sets}" SelectionMode="Multiple" Background="{DynamicResource BackgroundBrush}" BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <CheckBox Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10"
+                                              Content="{Binding Name}" IsChecked="{Binding IsUsed, Mode=TwoWay}">
 
-            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel>
-                    <CheckBox Name="CoreBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="CoreBox_Checked" Unchecked="CoreBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Core</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="GenesisBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="GenesisBox_Checked" Unchecked="GenesisBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Genesis</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="CaCBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="CaCBox_Checked" Unchecked="CaCBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Creation and Control</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="SpinBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="SpinBox_Checked" Unchecked="SpinBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Spin</TextBlock>
-                    </CheckBox>
-                </StackPanel>
+                                    </CheckBox>
 
-                <StackPanel>
-                    <CheckBox Name="HaPBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="HaPBox_Checked" Unchecked="HaPBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Honor and Profit</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="LunarBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="LunarBox_Checked" Unchecked="LunarBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Lunar</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="OaCBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="OaCBox_Checked" Unchecked="OaCBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Order and Chaos</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="SanSanBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="SanSanBox_Checked" Unchecked="SanSanBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">SanSan</TextBlock>
-                    </CheckBox>
-                </StackPanel>
-
-                <StackPanel>
-                    <CheckBox Name="DaDBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="DaDBox_Checked" Unchecked="DaDBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Data and Destiny</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="MumbadBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="MumbadBox_Checked" Unchecked="MumbadBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Mumbad</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="FlashpointBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="FlashpointBox_Checked" Unchecked="FlashpointBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Flashpoint</TextBlock>
-                    </CheckBox>
-                    <CheckBox Name="TDBox" Background="{DynamicResource BackgroundBrush}" Style="{StaticResource checkBoxSize}" Margin="10" Checked="TDBox_Checked" Unchecked="TDBox_Unchecked">
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Terminal Directive</TextBlock>
-                    </CheckBox>
-                </StackPanel>
-
-            </StackPanel>-->
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
 
             <Button Height="100" Width="200" Margin="40" Command="{Binding StartDraftCommand}">
                 <TextBlock FontSize="40" FontWeight="Bold">Start</TextBlock>

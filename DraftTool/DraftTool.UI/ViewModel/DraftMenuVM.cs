@@ -20,25 +20,25 @@ namespace DraftTool.UI.ViewModel
         private const int _numberOfCards = 3;
         private int _numberOfPlayers;
         private string _side;
-        private string _set;
         private List<Card> _cards;
         private IEventAggregator _eventAggregator;
-        private ICardRepo _cardRepo;
+        private IRepo _cardRepo;
 
         public ObservableCollection<int> NumberOfPlayersOptions { get; }
         public ObservableCollection<string> SideOptions { get; }
+        public ObservableCollection <Set> Sets { get; set; }
         public ICommand StartDraftCommand { get; }
 
-        public DraftMenuVM(IEventAggregator eventAggregator, ICardRepo cardRepo)
+        public DraftMenuVM(IEventAggregator eventAggregator, IRepo cardRepo)
         {
-            NumberOfPlayersOptions = new ObservableCollection<int> {2, 3, 4, 5, 6};
-            SideOptions = new ObservableCollection<string> {"Corp", "Runner"};
-            _numberOfPlayers = 2;
-            _side = "Corp";
-            _set = "Core";
-
             _eventAggregator = eventAggregator;
             _cardRepo = cardRepo;
+
+            NumberOfPlayersOptions = new ObservableCollection<int> {2, 3, 4, 5, 6};
+            SideOptions = new ObservableCollection<string> {"Corp", "Runner"};
+            Sets = new ObservableCollection<Set>(_cardRepo.Sets);
+            _numberOfPlayers = 2;
+            _side = "Corp";
 
             StartDraftCommand = new DelegateCommand(OnStartDraft);
         }
@@ -65,7 +65,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnStartDraft()
         {
-            _cards = _cardRepo.GetDecks(Side, _set);
+            _cards = _cardRepo.GetDecks(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             _eventAggregator.GetEvent<StartDraftEvent>().Publish(
                 new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = NumberOfPlayers, NumberOfCards = _numberOfCards, CardList = _cards });
         }

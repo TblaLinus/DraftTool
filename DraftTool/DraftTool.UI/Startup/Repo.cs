@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Startup
 {
-    class CardRepo : ICardRepo
+    class Repo : IRepo
     {
-        private List<Card> Cards { get; }
+        private List<Card> _cards { get; }
 
-        public CardRepo()
+        public List<Set> Sets { get; }
+
+        public Repo()
         {
-            Cards = new List<Card>();
+            _cards = new List<Card>();
+            Sets = new List<Set>();
 
             for(int i=1; i<=53; i++)
             {
@@ -26,7 +29,7 @@ namespace DraftTool.UI.Startup
                     MaxNumberOfUses = 3
                 };
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    Cards.Add(card);
+                    _cards.Add(card);
             }
             for (int i = 1; i <= 60; i++)
             {
@@ -39,7 +42,7 @@ namespace DraftTool.UI.Startup
                     MaxNumberOfUses = 3
                 };
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    Cards.Add(card);
+                    _cards.Add(card);
             }
 
             for (int i = 1; i <= 27; i++)
@@ -48,12 +51,12 @@ namespace DraftTool.UI.Startup
                 {
                     Name = $"CorpCard G{i}",
                     CardSide = "Corp",
-                    CardSet = "C&C",
+                    CardSet = "Creation & Control",
                     ImageURL = "https://netrunnerdb.com/card_image/03" + (i).ToString("D3") + ".png",
                     MaxNumberOfUses = 3
                 };
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    Cards.Add(card);
+                    _cards.Add(card);
             }
             for (int i = 1; i <= 28; i++)
             {
@@ -61,18 +64,23 @@ namespace DraftTool.UI.Startup
                 {
                     Name = $"RunnerCard G{i}",
                     CardSide = "Runner",
-                    CardSet = "C&C",
+                    CardSet = "Creation & Control",
                     ImageURL = "https://netrunnerdb.com/card_image/03" + (27 + i).ToString("D3") + ".png",
                     MaxNumberOfUses = 3
                 };
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    Cards.Add(card);
+                    _cards.Add(card);
             }
+
+            Set core = new Set { Name = "Core", IsUsed = false };
+            Sets.Add(core);
+            Set cac = new Set { Name = "Creation & Control", IsUsed = false };
+            Sets.Add(cac);
         }
 
-        public List<Card> GetDecks(string side, string set)
+        public List<Card> GetDecks(string side, IEnumerable<string> sets)
         {
-            List<Card> returnDeck = Cards.Where(c => c.CardSide == side && c.CardSet == set).ToList();
+            List<Card> returnDeck = _cards.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
             return returnDeck;
         }
     }
