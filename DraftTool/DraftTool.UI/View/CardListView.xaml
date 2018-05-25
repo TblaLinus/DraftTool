@@ -5,8 +5,51 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DraftTool.UI.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="CardView">
+             
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="DimGray"/>
+    </UserControl.Resources>
+
     <Grid>
-        <TextBlock Text="Card LIst"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="CardList" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="1200" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Cards}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Image VerticalAlignment="Center" Height="200" Source="{Binding ImageURL}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Margin="0,0,10,0" FontSize="20" Text="{Binding NumberOfUses}"/>
+                            <Button Height="20" Width="20" Margin="5" Command="{Binding ElementName=CardList, Path=DataContext.AddCardCommand}" CommandParameter="{Binding Name}">+</Button>
+                            <Button Height="20" Width="20" Margin="5" Command="{Binding ElementName=CardList, Path=DataContext.RemoveCardCommand}" CommandParameter="{Binding Name}">-</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button HorizontalAlignment="Center" Height="50" Width="200" Margin="10" Command="{Binding AddAllCommand}">
+                <TextBlock FontSize="30" FontWeight="Bold" VerticalAlignment="Center">Add All</TextBlock>
+            </Button>
+            <Button HorizontalAlignment="Center" Height="50" Width="200" Margin="10" Command="{Binding RemoveAllCommand}">
+                <TextBlock FontSize="30" FontWeight="Bold" VerticalAlignment="Center">Remove All</TextBlock>
+            </Button>
+            <Button Height="50" Width="200" Margin="10" Command="{Binding ExitCommand}">
+                <TextBlock FontSize="40" FontWeight="Bold" VerticalAlignment="Center">OK</TextBlock>
+            </Button>
+        </StackPanel>
+
     </Grid>
 </UserControl>

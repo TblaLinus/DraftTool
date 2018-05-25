@@ -1,6 +1,9 @@
 ﻿using DraftTool.Models;
+using DraftTool.UI.Event;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,14 +12,24 @@ namespace DraftTool.UI.Startup
 {
     class Repo : IRepo
     {
-        private List<Card> _cards { get; }
+        private IEventAggregator _eventAggregator;
+        private List<Card> _cardsWithNumbers;
 
-        public List<Set> Sets { get; }
+        public ObservableCollection<Card> Cards { get; }
+        public ObservableCollection<Set> Sets { get; }
 
-        public Repo()
+        public Repo(IEventAggregator eventAggregator)
         {
-            _cards = new List<Card>();
-            Sets = new List<Set>();
+            _eventAggregator = eventAggregator;
+            _cardsWithNumbers = new List<Card>();
+
+            _eventAggregator.GetEvent<AddCardEvent>().Subscribe(OnAddCard);
+            _eventAggregator.GetEvent<RemoveCardEvent>().Subscribe(OnRemoveCard);
+            _eventAggregator.GetEvent<AddAllEvent>().Subscribe(OnAddAll);
+            _eventAggregator.GetEvent<RemoveAllEvent>().Subscribe(OnRemoveAll);
+
+            Cards = new ObservableCollection<Card>();
+            Sets = new ObservableCollection<Set>();
 
             for(int i=1; i<=53; i++)
             {
@@ -26,10 +39,10 @@ namespace DraftTool.UI.Startup
                     CardSide = "Runner",
                     CardSet = "Core",
                     ImageURL = "https://netrunnerdb.com/card_image/01" + (i).ToString("D3") + ".png",
+                    NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    _cards.Add(card);
+                Cards.Add(card);
             }
             for (int i = 1; i <= 60; i++)
             {
@@ -39,10 +52,10 @@ namespace DraftTool.UI.Startup
                     CardSide = "Corp",
                     CardSet = "Core",
                     ImageURL = "https://netrunnerdb.com/card_image/01" + (53 + i).ToString("D3") + ".png",
+                    NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    _cards.Add(card);
+                Cards.Add(card);
             }
 
             for (int i = 1; i <= 27; i++)
@@ -53,10 +66,10 @@ namespace DraftTool.UI.Startup
                     CardSide = "Corp",
                     CardSet = "Creation & Control",
                     ImageURL = "https://netrunnerdb.com/card_image/03" + (i).ToString("D3") + ".png",
+                    NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    _cards.Add(card);
+                Cards.Add(card);
             }
             for (int i = 1; i <= 28; i++)
             {
@@ -66,10 +79,17 @@ namespace DraftTool.UI.Startup
                     CardSide = "Runner",
                     CardSet = "Creation & Control",
                     ImageURL = "https://netrunnerdb.com/card_image/03" + (27 + i).ToString("D3") + ".png",
+                    NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
+                Cards.Add(card);
+            }
+            foreach (Card card in Cards)
+            {
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
-                    _cards.Add(card);
+                {
+                    _cardsWithNumbers.Add(card);
+                }
             }
 
             Set core = new Set { Name = "Core", IsUsed = false };
@@ -78,9 +98,36 @@ namespace DraftTool.UI.Startup
             Sets.Add(cac);
         }
 
-        public List<Card> GetDecks(string side, IEnumerable<string> sets)
+        private void OnAddCard(AddCardEventArgs args)
         {
-            List<Card> returnDeck = _cards.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
+            _cardsWithNumbers.Add(Cards.Single(c => c.Name == args.Name));
+        }
+
+        private void OnRemoveCard(RemoveCardEventArgs args)
+        {
+            _cardsWithNumbers.Remove(_cardsWithNumbers.Where(c => c.Name == args.Name).Last());
+        }
+
+        private void OnAddAll()
+        {
+            _cardsWithNumbers.Clear();
+            foreach (Card card in Cards)
+            {
+                for (int i = 0; i < card.NumberOfUses; i++)
+                {
+                    _cardsWithNumbers.Add(card);
+                }
+            }
+        }
+
+        private void OnRemoveAll()
+        {
+            _cardsWithNumbers.Clear();
+        }
+
+        public List<Card> GetUsedCards (string side, IEnumerable<string> sets)
+        {
+            List<Card>returnDeck = Cards.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
             return returnDeck;
         }
     }

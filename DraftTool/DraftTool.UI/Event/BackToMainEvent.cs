@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Event
 {
-    class FinishedDraftEvent : PubSubEvent
+    class BackToMainEvent : PubSubEvent
     {
     }
 }

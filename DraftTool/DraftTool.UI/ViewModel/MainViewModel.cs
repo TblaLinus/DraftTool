@@ -29,7 +29,7 @@ namespace DraftTool.UI.ViewModel
             _cardListVM = cardListVM;
             _gameVMCreator = gameVMCreator;
 
-            _eventAggregator.GetEvent<FinishedDraftEvent>().Subscribe(OnFinishedDraft);
+            _eventAggregator.GetEvent<BackToMainEvent>().Subscribe(OnFinishedDraft);
 
             NewDraftCommand = new DelegateCommand(OnNewDraft);
             GoToCardListCommand = new DelegateCommand(OnGoToCardList);
@@ -53,6 +53,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnGoToCardList()
         {
+            _eventAggregator.GetEvent<CreateCardListEvent>().Publish();
             ActivePage = (IViewModelBase)_cardListVM;
         }
 

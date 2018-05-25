@@ -78,9 +78,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Event\FinishedDraftEvent.cs" />
+    <Compile Include="Event\AddAllEvent.cs" />
+    <Compile Include="Event\BackToMainEvent.cs" />
+    <Compile Include="Event\AddCardEvent.cs" />
+    <Compile Include="Event\CreateCardListEvent.cs" />
     <Compile Include="Event\PlayerDoneEvent.cs" />
     <Compile Include="Event\PlayerReadyEvent.cs" />
+    <Compile Include="Event\RemoveAllEvent.cs" />
+    <Compile Include="Event\RemoveCardEvent.cs" />
     <Compile Include="Event\ShowDraftPageEvent.cs" />
     <Compile Include="Event\ShowReadyPageEvent.cs" />
     <Compile Include="Event\ShowResultPageEvent.cs" />

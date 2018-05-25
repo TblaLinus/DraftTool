@@ -76,7 +76,7 @@ namespace DraftTool.UI.Service
             {
                 if (_activePlayer == NumberOfPlayers)
                 {
-                    _eventAggregator.GetEvent<FinishedDraftEvent>().Publish();
+                    _eventAggregator.GetEvent<BackToMainEvent>().Publish();
                     return;
                 }
             }

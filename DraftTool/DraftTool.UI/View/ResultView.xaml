@@ -31,7 +31,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Grid.Row="1" Width="200" Height="50" Margin="20" Command="{Binding DoneCommand}">Done</Button>
+        <Button Grid.Row="1" Height="100" Width="200" Margin="40" Command="{Binding DoneCommand}">
+            <TextBlock FontSize="40" FontWeight="Bold">Done</TextBlock>
+        </Button>
 
     </Grid>
 </UserControl>
