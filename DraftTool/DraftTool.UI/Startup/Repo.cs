@@ -132,7 +132,7 @@ namespace DraftTool.UI.Startup
 
         public List<CardWrapper> GetUsedCards (string side, IEnumerable<string> sets)
         {
-            List<CardWrapper> returnDeck = Cards.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
+            List<CardWrapper> returnDeck = _cardsWithNumbers.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
             return returnDeck;
         }
     }
