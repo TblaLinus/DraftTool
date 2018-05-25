@@ -1,5 +1,6 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
+using DraftTool.UI.Wrapper;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,14 @@ namespace DraftTool.UI.Service
         private bool _results;
         private bool _clear;
         private IEventAggregator _eventAggregator;
-        private ObservableCollection<Card>[][] _draftDecks;
-        private ObservableCollection<Card>[] _resultDecks;
+        private ObservableCollection<CardWrapper>[][] _draftDecks;
+        private ObservableCollection<CardWrapper>[] _resultDecks;
         private Random _rnd = new Random();
 
         public int NumberOfRounds { get; set; }
         public int NumberOfPlayers { get; set; }
         public int NumberOfCards { get; set; }
-        public List<Card> CardList { get; set; }
+        public List<CardWrapper> CardList { get; set; }
 
         public GameEngine(IEventAggregator eventAggregator)
         {
@@ -47,10 +48,10 @@ namespace DraftTool.UI.Service
             NumberOfCards = args.NumberOfCards;
             CardList = args.CardList;
             _draftDecks = GetDraftDecks();
-            _resultDecks = new ObservableCollection<Card>[NumberOfPlayers];
+            _resultDecks = new ObservableCollection<CardWrapper>[NumberOfPlayers];
             for (int i = 0; i < NumberOfPlayers; i++)
             {
-                _resultDecks[i] = new ObservableCollection<Card>();
+                _resultDecks[i] = new ObservableCollection<CardWrapper>();
             }
 
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results});
@@ -104,9 +105,9 @@ namespace DraftTool.UI.Service
                 new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results });
         }
 
-        private void AddResults(ObservableCollection<Card> cards)
+        private void AddResults(ObservableCollection<CardWrapper> cards)
         {
-            foreach (Card card in cards)
+            foreach (CardWrapper card in cards)
             {
                 _resultDecks[_activePlayer - 1].Add(card);
             }
@@ -125,19 +126,19 @@ namespace DraftTool.UI.Service
             }
         }
 
-        private ObservableCollection<Card>[][] GetDraftDecks()
+        private ObservableCollection<CardWrapper>[][] GetDraftDecks()
         {
-            ObservableCollection<Card>[][] decks = new ObservableCollection<Card>[NumberOfRounds][];
+            ObservableCollection<CardWrapper>[][] decks = new ObservableCollection<CardWrapper>[NumberOfRounds][];
 
             for (int i = 0; i < NumberOfRounds; i++)
             {
-                decks[i] = new ObservableCollection<Card>[NumberOfPlayers];
+                decks[i] = new ObservableCollection<CardWrapper>[NumberOfPlayers];
                 for (int j = 0; j < NumberOfPlayers; j++)
                 {
-                    decks[i][j] = new ObservableCollection<Card>();
+                    decks[i][j] = new ObservableCollection<CardWrapper>();
                     for (int k = 0; k < NumberOfCards; k++)
                     {
-                        Card card = CardList[_rnd.Next(0, CardList.Count)];
+                        CardWrapper card = CardList[_rnd.Next(0, CardList.Count)];
                         decks[i][j].Add(card);
                         CardList.Remove(card);
                     }

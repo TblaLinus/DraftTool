@@ -2,6 +2,7 @@
 using DraftTool.UI.Event;
 using DraftTool.UI.Startup;
 using DraftTool.UI.ViewModel.Interfaces;
+using DraftTool.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -19,7 +20,7 @@ namespace DraftTool.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IRepo _repo;
 
-        public ObservableCollection<Card> Cards { get; set; }
+        public ObservableCollection<CardWrapper> Cards { get; set; }
         public ICommand AddCardCommand { get; }
         public ICommand RemoveCardCommand { get; }
         public ICommand AddAllCommand { get; }
@@ -54,7 +55,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnAddAll()
         {
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
                 card.NumberOfUses = card.MaxNumberOfUses;
             }
@@ -63,7 +64,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnRemoveAll()
         {
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
                 card.NumberOfUses = 0;
             }

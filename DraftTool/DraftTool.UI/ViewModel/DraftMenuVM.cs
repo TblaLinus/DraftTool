@@ -2,6 +2,7 @@
 using DraftTool.UI.Event;
 using DraftTool.UI.Startup;
 using DraftTool.UI.ViewModel.Interfaces;
+using DraftTool.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -20,7 +21,7 @@ namespace DraftTool.UI.ViewModel
         private const int _numberOfCards = 4;
         private int _numberOfPlayers;
         private string _side;
-        private List<Card> _cards;
+        private List<CardWrapper> _cards;
         private IEventAggregator _eventAggregator;
         private IRepo _repo;
 

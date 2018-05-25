@@ -1,4 +1,5 @@
 ﻿using DraftTool.Models;
+using DraftTool.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ namespace DraftTool.UI.ViewModel.Interfaces
 {
     public interface IDraftVM
     {
-        ObservableCollection<Card> AvailableCards { get; set; }
-        ObservableCollection<Card> ChosenCards { get; set; }
+        ObservableCollection<CardWrapper> AvailableCards { get; set; }
+        ObservableCollection<CardWrapper> ChosenCards { get; set; }
     }
 }

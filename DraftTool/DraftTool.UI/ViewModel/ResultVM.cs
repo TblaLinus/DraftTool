@@ -1,6 +1,7 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
 using DraftTool.UI.ViewModel.Interfaces;
+using DraftTool.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -16,7 +17,7 @@ namespace DraftTool.UI.ViewModel
     public class ResultVM : ViewModelBase, IResultVM
     {
         private int _player;
-        private ObservableCollection<Card> _resultDeck;
+        private ObservableCollection<CardWrapper> _resultDeck;
         private string _resultText;
         private IEventAggregator _eventAggregator;
 
@@ -39,7 +40,7 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
-        public ObservableCollection<Card> ResultDeck
+        public ObservableCollection<CardWrapper> ResultDeck
         {
             get { return _resultDeck; }
             set

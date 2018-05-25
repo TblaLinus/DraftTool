@@ -1,4 +1,5 @@
 ﻿using DraftTool.Models;
+using DraftTool.UI.Wrapper;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,6 @@ namespace DraftTool.UI.Event
     public class ShowResultPageEventArgs
     {
         public int Player { get; set; }
-        public ObservableCollection<Card> ResultDeck { get; set; }
+        public ObservableCollection<CardWrapper> ResultDeck { get; set; }
     }
 }

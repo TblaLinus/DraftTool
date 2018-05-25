@@ -1,4 +1,5 @@
 ﻿using DraftTool.Models;
+using DraftTool.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,8 +11,8 @@ namespace DraftTool.UI.Startup
 {
     public interface  IRepo
     {
-        ObservableCollection<Card> Cards { get; }
+        ObservableCollection<CardWrapper> Cards { get; }
         ObservableCollection<Set> Sets { get; }
-        List<Card> GetUsedCards(string side, IEnumerable<string> sets);
+        List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets);
     }
 }

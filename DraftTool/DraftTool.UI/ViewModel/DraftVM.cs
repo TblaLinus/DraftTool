@@ -1,6 +1,7 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
 using DraftTool.UI.ViewModel.Interfaces;
+using DraftTool.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -18,24 +19,24 @@ namespace DraftTool.UI.ViewModel
     public class DraftVM : ViewModelBase, IDraftVM
     {
         private IEventAggregator _eventAggregator;
-        private Card _selectedCard;
-        private Card _selectedAvailableCard;
-        private Card _selectedChosenCard;
+        private CardWrapper _selectedCard;
+        private CardWrapper _selectedAvailableCard;
+        private CardWrapper _selectedChosenCard;
 
-        public ObservableCollection<Card> AvailableCards { get; set; }
-        public ObservableCollection<Card> ChosenCards { get; set; }
+        public ObservableCollection<CardWrapper> AvailableCards { get; set; }
+        public ObservableCollection<CardWrapper> ChosenCards { get; set; }
         public ICommand SelectedCommand { get; }
 
         public DraftVM(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
 
-            ChosenCards = new ObservableCollection<Card>();
+            ChosenCards = new ObservableCollection<CardWrapper>();
 
             SelectedCommand = new DelegateCommand(OnSelected);
         }
 
-        public Card SelectedCard
+        public CardWrapper SelectedCard
         {
             get { return _selectedCard; }
             set
@@ -45,7 +46,7 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
-        public Card SelectedAvailableCard
+        public CardWrapper SelectedAvailableCard
         {
             get { return _selectedAvailableCard; }
             set
@@ -59,7 +60,7 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
-        public Card SelectedChosenCard
+        public CardWrapper SelectedChosenCard
         {
             get { return _selectedChosenCard; }
             set
@@ -71,11 +72,6 @@ namespace DraftTool.UI.ViewModel
                     SelectedAvailableCard = null;
                 }
             }
-        }
-
-        private void ListBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ((ListBox)sender).SelectedItem = null;
         }
 
         private void OnSelected()

@@ -1,5 +1,6 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
+using DraftTool.UI.Wrapper;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -13,27 +14,28 @@ namespace DraftTool.UI.Startup
     class Repo : IRepo
     {
         private IEventAggregator _eventAggregator;
-        private List<Card> _cardsWithNumbers;
+        private List<CardWrapper> _cardsWithNumbers;
 
-        public ObservableCollection<Card> Cards { get; }
+        public ObservableCollection<CardWrapper> Cards { get; }
         public ObservableCollection<Set> Sets { get; }
 
         public Repo(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _cardsWithNumbers = new List<Card>();
+            _cardsWithNumbers = new List<CardWrapper>();
 
             _eventAggregator.GetEvent<AddCardEvent>().Subscribe(OnAddCard);
             _eventAggregator.GetEvent<RemoveCardEvent>().Subscribe(OnRemoveCard);
             _eventAggregator.GetEvent<AddAllEvent>().Subscribe(OnAddAll);
             _eventAggregator.GetEvent<RemoveAllEvent>().Subscribe(OnRemoveAll);
 
-            Cards = new ObservableCollection<Card>();
+            Cards = new ObservableCollection<CardWrapper>();
             Sets = new ObservableCollection<Set>();
 
             for(int i=1; i<=53; i++)
             {
-                Card card = new Card
+                Card card = new Card();
+                CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"RunnerCard C{i}",
                     CardSide = "Runner",
@@ -42,11 +44,12 @@ namespace DraftTool.UI.Startup
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                Cards.Add(card);
+                Cards.Add(cardWrapper);
             }
             for (int i = 1; i <= 60; i++)
             {
-                Card card = new Card
+                Card card = new Card();
+                CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"CorpCard C{i}",
                     CardSide = "Corp",
@@ -55,12 +58,13 @@ namespace DraftTool.UI.Startup
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                Cards.Add(card);
+                Cards.Add(cardWrapper);
             }
 
             for (int i = 1; i <= 27; i++)
             {
-                Card card = new Card
+                Card card = new Card();
+                CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"CorpCard G{i}",
                     CardSide = "Corp",
@@ -69,11 +73,12 @@ namespace DraftTool.UI.Startup
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                Cards.Add(card);
+                Cards.Add(cardWrapper);
             }
             for (int i = 1; i <= 28; i++)
             {
-                Card card = new Card
+                Card card = new Card();
+                CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"RunnerCard G{i}",
                     CardSide = "Runner",
@@ -82,9 +87,9 @@ namespace DraftTool.UI.Startup
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
                 };
-                Cards.Add(card);
+                Cards.Add(cardWrapper);
             }
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
                 {
@@ -111,7 +116,7 @@ namespace DraftTool.UI.Startup
         private void OnAddAll()
         {
             _cardsWithNumbers.Clear();
-            foreach (Card card in Cards)
+            foreach (CardWrapper card in Cards)
             {
                 for (int i = 0; i < card.NumberOfUses; i++)
                 {
@@ -125,9 +130,9 @@ namespace DraftTool.UI.Startup
             _cardsWithNumbers.Clear();
         }
 
-        public List<Card> GetUsedCards (string side, IEnumerable<string> sets)
+        public List<CardWrapper> GetUsedCards (string side, IEnumerable<string> sets)
         {
-            List<Card>returnDeck = Cards.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
+            List<CardWrapper> returnDeck = Cards.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
             return returnDeck;
         }
     }

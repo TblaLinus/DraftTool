@@ -1,5 +1,6 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.ViewModel.Interfaces;
+using DraftTool.UI.Wrapper;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,6 @@ namespace DraftTool.UI.Event
         public int NumberOfRounds { get; set; }
         public int NumberOfPlayers { get; set; }
         public int NumberOfCards { get; set; }
-        public List<Card> CardList { get; set; }
+        public List<CardWrapper> CardList { get; set; }
     }
 }
