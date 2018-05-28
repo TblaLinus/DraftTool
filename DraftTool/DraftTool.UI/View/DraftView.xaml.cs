@@ -27,12 +27,14 @@ namespace DraftTool.UI.View
 
         private void AvailableList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ChosenList.UnselectAll();
+            if(AvailableList.SelectedValue != null)
+                ChosenList.UnselectAll();
         }
 
         private void ChosenList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AvailableList.UnselectAll();
+            if (ChosenList.SelectedValue != null)
+                AvailableList.UnselectAll();
         }
     }
 }

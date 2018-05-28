@@ -12,7 +12,7 @@ namespace DraftTool.UI.Startup
     public interface  IRepo
     {
         ObservableCollection<CardWrapper> Cards { get; }
-        ObservableCollection<Set> Sets { get; }
+        ObservableCollection<SetWrapper> Sets { get; }
         List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets);
     }
 }

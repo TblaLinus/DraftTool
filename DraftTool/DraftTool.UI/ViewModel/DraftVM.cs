@@ -33,7 +33,7 @@ namespace DraftTool.UI.ViewModel
 
             ChosenCards = new ObservableCollection<CardWrapper>();
 
-            SelectedCommand = new DelegateCommand(OnSelected);
+            SelectedCommand = new DelegateCommand(OnSelected, OnSelectedCanExecute);
         }
 
         public CardWrapper SelectedCard
@@ -57,6 +57,7 @@ namespace DraftTool.UI.ViewModel
                     SelectedCard = value;
                     SelectedChosenCard = null;
                 }
+                ((DelegateCommand)SelectedCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -87,6 +88,11 @@ namespace DraftTool.UI.ViewModel
             {
                 _eventAggregator.GetEvent<PlayerDoneEvent>().Publish(null);
             }
+        }
+
+        private bool OnSelectedCanExecute()
+        {
+            return SelectedAvailableCard != null;
         }
     }
 }

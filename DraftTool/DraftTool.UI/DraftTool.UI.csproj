@@ -90,6 +90,7 @@
     <Compile Include="Event\ShowReadyPageEvent.cs" />
     <Compile Include="Event\ShowResultPageEvent.cs" />
     <Compile Include="Event\StartDraftEvent.cs" />
+    <Compile Include="Service\ItemsChangeObservableCollection.cs" />
     <Compile Include="Service\GameEngine.cs" />
     <Compile Include="Service\IGameEngine.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
@@ -129,6 +130,7 @@
       <DependentUpon>ResultView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrapper\CardWrapper.cs" />
+    <Compile Include="Wrapper\SetWrapper.cs" />
     <Compile Include="Wrapper\WrapperBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

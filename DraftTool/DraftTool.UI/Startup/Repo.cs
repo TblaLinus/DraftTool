@@ -17,7 +17,7 @@ namespace DraftTool.UI.Startup
         private List<CardWrapper> _cardsWithNumbers;
 
         public ObservableCollection<CardWrapper> Cards { get; }
-        public ObservableCollection<Set> Sets { get; }
+        public ObservableCollection<SetWrapper> Sets { get; }
 
         public Repo(IEventAggregator eventAggregator)
         {
@@ -30,7 +30,7 @@ namespace DraftTool.UI.Startup
             _eventAggregator.GetEvent<RemoveAllEvent>().Subscribe(OnRemoveAll);
 
             Cards = new ObservableCollection<CardWrapper>();
-            Sets = new ObservableCollection<Set>();
+            Sets = new ObservableCollection<SetWrapper>();
 
             for(int i=1; i<=53; i++)
             {
@@ -97,10 +97,12 @@ namespace DraftTool.UI.Startup
                 }
             }
 
-            Set core = new Set { Name = "Core", IsUsed = false };
-            Sets.Add(core);
-            Set cac = new Set { Name = "Creation & Control", IsUsed = false };
-            Sets.Add(cac);
+            Set core = new Set { Name = "Core" };
+            SetWrapper coreWrapper = new SetWrapper(core) { IsUsed = false };
+            Sets.Add(coreWrapper);
+            Set cac = new Set { Name = "Creation & Control" };
+            SetWrapper cacWrapper = new SetWrapper(cac) { IsUsed = false };
+            Sets.Add(cacWrapper);
         }
 
         private void OnAddCard(AddCardEventArgs args)
