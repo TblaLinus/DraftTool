@@ -90,6 +90,7 @@
     <Compile Include="Event\ShowReadyPageEvent.cs" />
     <Compile Include="Event\ShowResultPageEvent.cs" />
     <Compile Include="Event\StartDraftEvent.cs" />
+    <Compile Include="HelperClasses\ItemsChangeObservableCollection.cs" />
     <Compile Include="Service\GameEngine.cs" />
     <Compile Include="Service\IGameEngine.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />

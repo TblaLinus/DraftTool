@@ -1,5 +1,6 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
+using DraftTool.UI.HelperClasses;
 using DraftTool.UI.Startup;
 using DraftTool.UI.ViewModel.Interfaces;
 using DraftTool.UI.Wrapper;
@@ -8,6 +9,8 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +30,7 @@ namespace DraftTool.UI.ViewModel
 
         public ObservableCollection<int> NumberOfPlayersOptions { get; }
         public ObservableCollection<string> SideOptions { get; }
-        public ObservableCollection <SetWrapper> Sets { get; set; }
+        public ItemsChangeObservableCollection<SetWrapper> Sets { get; set; }
         public ICommand StartDraftCommand { get; }
 
         public DraftMenuVM(IEventAggregator eventAggregator, IRepo repo)
@@ -35,13 +38,20 @@ namespace DraftTool.UI.ViewModel
             _eventAggregator = eventAggregator;
             _repo = repo;
 
-            NumberOfPlayersOptions = new ObservableCollection<int> {2, 3, 4, 5, 6};
-            SideOptions = new ObservableCollection<string> {"Corp", "Runner"};
-            Sets = _repo.Sets;
+            NumberOfPlayersOptions = new ObservableCollection<int> { 2, 3, 4, 5, 6 };
+            SideOptions = new ObservableCollection<string> { "Corp", "Runner" };
+            Sets = new ItemsChangeObservableCollection<SetWrapper>(_repo.Sets);
+
+            Sets.CollectionChanged += Sets_CollectionChanged;
             _numberOfPlayers = 2;
             _side = "Corp";
 
-            StartDraftCommand = new DelegateCommand(OnStartDraft);
+            StartDraftCommand = new DelegateCommand(OnStartDraft, OnStartDraftCanExecute);
+        }
+
+        private void Sets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ((DelegateCommand)StartDraftCommand).RaiseCanExecuteChanged();
         }
 
         public int NumberOfPlayers
@@ -51,6 +61,7 @@ namespace DraftTool.UI.ViewModel
             {
                 _numberOfPlayers = value;
                 OnPropertyChanged();
+                ((DelegateCommand)StartDraftCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -61,14 +72,21 @@ namespace DraftTool.UI.ViewModel
             {
                 _side = value;
                 OnPropertyChanged();
+                ((DelegateCommand)StartDraftCommand).RaiseCanExecuteChanged();
             }
         }
 
         private void OnStartDraft()
         {
-            _cards = _repo.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             _eventAggregator.GetEvent<StartDraftEvent>().Publish(
                 new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = NumberOfPlayers, NumberOfCards = _numberOfCards, CardList = _cards });
+            Sets.Clear();
+        }
+
+        private bool OnStartDraftCanExecute()
+        {
+            _cards = _repo.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
+            return _cards.Count() >= _numberOfPlayers * _numberOfRounds * _numberOfCards;
         }
     }
 }
