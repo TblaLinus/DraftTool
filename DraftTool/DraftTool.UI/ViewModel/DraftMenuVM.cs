@@ -27,7 +27,7 @@ namespace DraftTool.UI.ViewModel
 
         public ObservableCollection<int> NumberOfPlayersOptions { get; }
         public ObservableCollection<string> SideOptions { get; }
-        public ObservableCollection <Set> Sets { get; set; }
+        public ObservableCollection <SetWrapper> Sets { get; set; }
         public ICommand StartDraftCommand { get; }
 
         public DraftMenuVM(IEventAggregator eventAggregator, IRepo repo)
