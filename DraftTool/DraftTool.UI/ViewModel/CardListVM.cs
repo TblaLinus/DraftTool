@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,55 +20,40 @@ namespace DraftTool.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private IRepo _repo;
+        private Func<CardWrapper, ICardVM> _cardVMCreator;
 
-        public ObservableCollection<CardWrapper> Cards { get; set; }
+        public ObservableCollection<ICardVM> CardVMList { get; set; }
         public ICommand AddCardCommand { get; }
         public ICommand RemoveCardCommand { get; }
         public ICommand AddAllCommand { get; }
         public ICommand RemoveAllCommand { get; }
         public ICommand ExitCommand { get; }
 
-        public CardListVM(IEventAggregator eventAggregator, IRepo repo)
+        public CardListVM(IEventAggregator eventAggregator, IRepo repo, Func<CardWrapper, ICardVM> cardVMCreator)
         {
             _eventAggregator = eventAggregator;
             _repo = repo;
+            _cardVMCreator = cardVMCreator;
 
-            Cards = _repo.Cards;
+            CardVMList = new ObservableCollection<ICardVM>();
+            foreach (CardWrapper card in _repo.Cards)
+            {
+                ICardVM cardVM = _cardVMCreator(card);
+                CardVMList.Add(cardVM);
+            }
 
-            AddCardCommand = new DelegateCommand<string>(OnAddCard);
-            RemoveCardCommand = new DelegateCommand<string>(OnRemoveCard);
             AddAllCommand = new DelegateCommand(OnAddAll);
             RemoveAllCommand = new DelegateCommand(OnRemoveAll);
             ExitCommand = new DelegateCommand(OnExit);
         }
 
-        private void OnAddCard(string name)
-        {
-            Cards.Single(c => c.Name == name).NumberOfUses++;
-            _eventAggregator.GetEvent<AddCardEvent>().Publish(new AddCardEventArgs { Name = name });
-        }
-
-        private void OnRemoveCard(string name)
-        {
-            Cards.Single(c => c.Name == name).NumberOfUses--;
-            _eventAggregator.GetEvent<RemoveCardEvent>().Publish(new RemoveCardEventArgs { Name = name });
-        }
-
         private void OnAddAll()
         {
-            foreach (CardWrapper card in Cards)
-            {
-                card.NumberOfUses = card.MaxNumberOfUses;
-            }
             _eventAggregator.GetEvent<AddAllEvent>().Publish();
         }
 
         private void OnRemoveAll()
         {
-            foreach (CardWrapper card in Cards)
-            {
-                card.NumberOfUses = 0;
-            }
             _eventAggregator.GetEvent<RemoveAllEvent>().Publish();
         }
 
