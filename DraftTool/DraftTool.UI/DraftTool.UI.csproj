@@ -115,11 +115,13 @@
     <Compile Include="Service\IGameEngine.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
+    <Compile Include="ViewModel\CardMenuVM.cs" />
     <Compile Include="ViewModel\CardVM.cs" />
     <Compile Include="ViewModel\DraftMenuVM.cs" />
     <Compile Include="ViewModel\DraftVM.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="ViewModel\Interfaces\ICardListVM.cs" />
+    <Compile Include="ViewModel\Interfaces\ICardMenuVM.cs" />
     <Compile Include="ViewModel\Interfaces\ICardVM.cs" />
     <Compile Include="ViewModel\Interfaces\IDraftMenuVM.cs" />
     <Compile Include="ViewModel\Interfaces\IDraftVM.cs" />

@@ -44,8 +44,6 @@ namespace DraftTool.UI.Service
                 }
             }
 
-         
-
             Sets = new ObservableCollection<SetWrapper>();
             foreach (Set DBset in _repo.GetSets())
             {
@@ -53,7 +51,6 @@ namespace DraftTool.UI.Service
                 set.IsUsed = false;
                 Sets.Add(set);
             }
-
         }
 
         private void OnAddCard(AddCardEventArgs args)
