@@ -1,4 +1,5 @@
-﻿using DraftTool.Models;
+﻿using DraftTool.DataAccess;
+using DraftTool.Models;
 using DraftTool.UI.Event;
 using DraftTool.UI.Wrapper;
 using Prism.Events;
@@ -9,17 +10,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DraftTool.UI.Startup
+namespace DraftTool.UI.Service
 {
-    class Repo : IRepo
+    public class DBService : IDBService
     {
         private IEventAggregator _eventAggregator;
+        private IRepo _repo;
         private List<CardWrapper> _cardsWithNumbers;
 
         public ObservableCollection<CardWrapper> Cards { get; }
         public ObservableCollection<SetWrapper> Sets { get; }
 
-        public Repo(IEventAggregator eventAggregator)
+        public DBService(IEventAggregator eventAggregator, IRepo repo)
         {
             _eventAggregator = eventAggregator;
             _cardsWithNumbers = new List<CardWrapper>();
@@ -32,14 +34,14 @@ namespace DraftTool.UI.Startup
             Cards = new ObservableCollection<CardWrapper>();
             Sets = new ObservableCollection<SetWrapper>();
 
-            for(int i=1; i<=53; i++)
+            for (int i = 1; i <= 53; i++)
             {
                 Card card = new Card();
                 CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"RunnerCard C{i}",
-                    CardSide = "Runner",
-                    CardSet = "Core",
+                    Side = "Runner",
+                    Set = "Core",
                     ImageURL = "https://netrunnerdb.com/card_image/01" + (i).ToString("D3") + ".png",
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
@@ -52,8 +54,8 @@ namespace DraftTool.UI.Startup
                 CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"CorpCard C{i}",
-                    CardSide = "Corp",
-                    CardSet = "Core",
+                    Side = "Corp",
+                    Set = "Core",
                     ImageURL = "https://netrunnerdb.com/card_image/01" + (53 + i).ToString("D3") + ".png",
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
@@ -67,8 +69,8 @@ namespace DraftTool.UI.Startup
                 CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"CorpCard G{i}",
-                    CardSide = "Corp",
-                    CardSet = "Creation & Control",
+                    Side = "Corp",
+                    Set = "Creation & Control",
                     ImageURL = "https://netrunnerdb.com/card_image/03" + (i).ToString("D3") + ".png",
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
@@ -81,8 +83,8 @@ namespace DraftTool.UI.Startup
                 CardWrapper cardWrapper = new CardWrapper(card)
                 {
                     Name = $"RunnerCard G{i}",
-                    CardSide = "Runner",
-                    CardSet = "Creation & Control",
+                    Side = "Runner",
+                    Set = "Creation & Control",
                     ImageURL = "https://netrunnerdb.com/card_image/03" + (27 + i).ToString("D3") + ".png",
                     NumberOfUses = 3,
                     MaxNumberOfUses = 3
@@ -132,9 +134,9 @@ namespace DraftTool.UI.Startup
             _cardsWithNumbers.Clear();
         }
 
-        public List<CardWrapper> GetUsedCards (string side, IEnumerable<string> sets)
+        public List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets)
         {
-            List<CardWrapper> returnDeck = _cardsWithNumbers.Where(c => c.CardSide == side && sets.Contains(c.CardSet)).ToList();
+            List<CardWrapper> returnDeck = _cardsWithNumbers.Where(c => c.Side == side && sets.Contains(c.Set)).ToList();
             return returnDeck;
         }
     }

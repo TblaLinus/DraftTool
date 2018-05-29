@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DraftTool.DataAccess;
 using DraftTool.UI.Service;
 using DraftTool.UI.ViewModel;
 using DraftTool.UI.ViewModel.Interfaces;
@@ -12,10 +13,13 @@ namespace DraftTool.UI.Startup
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<Repo>().As<IRepo>().SingleInstance();
-            builder.RegisterType<GameEngine>().As<IGameEngine>().SingleInstance();
 
+            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<DBService>().As<IDBService>().SingleInstance();
+            builder.RegisterType<GameEngine>().As<IGameEngine>().SingleInstance();
+            builder.RegisterType<Repo>().As<IRepo>().SingleInstance();
+
+            builder.RegisterType<DraftToolDBContext>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
 

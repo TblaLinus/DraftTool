@@ -1,6 +1,7 @@
 ﻿using DraftTool.Models;
 using DraftTool.UI.Event;
 using DraftTool.UI.HelperClasses;
+using DraftTool.UI.Service;
 using DraftTool.UI.Startup;
 using DraftTool.UI.ViewModel.Interfaces;
 using DraftTool.UI.Wrapper;
@@ -26,21 +27,21 @@ namespace DraftTool.UI.ViewModel
         private string _side;
         private List<CardWrapper> _cards;
         private IEventAggregator _eventAggregator;
-        private IRepo _repo;
+        private IDBService _DBService;
 
         public ObservableCollection<int> NumberOfPlayersOptions { get; }
         public ObservableCollection<string> SideOptions { get; }
         public ItemsChangeObservableCollection<SetWrapper> Sets { get; set; }
         public ICommand StartDraftCommand { get; }
 
-        public DraftMenuVM(IEventAggregator eventAggregator, IRepo repo)
+        public DraftMenuVM(IEventAggregator eventAggregator, IDBService DBService)
         {
             _eventAggregator = eventAggregator;
-            _repo = repo;
+            _DBService = DBService;
 
             NumberOfPlayersOptions = new ObservableCollection<int> { 2, 3, 4, 5, 6 };
             SideOptions = new ObservableCollection<string> { "Corp", "Runner" };
-            Sets = new ItemsChangeObservableCollection<SetWrapper>(_repo.Sets);
+            Sets = new ItemsChangeObservableCollection<SetWrapper>(_DBService.Sets);
 
             Sets.CollectionChanged += Sets_CollectionChanged;
             _numberOfPlayers = 2;
@@ -85,7 +86,7 @@ namespace DraftTool.UI.ViewModel
 
         private bool OnStartDraftCanExecute()
         {
-            _cards = _repo.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
+            _cards = _DBService.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             return _cards.Count() >= _numberOfPlayers * _numberOfRounds * _numberOfCards;
         }
     }

@@ -38,13 +38,13 @@ namespace DraftTool.UI.Wrapper
             set { SetValue(value); }
         }
 
-        public string CardSide
+        public string Side
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
         
-        public string CardSet
+        public string Set
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }

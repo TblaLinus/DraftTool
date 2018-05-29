@@ -1,5 +1,4 @@
-﻿using DraftTool.Models;
-using DraftTool.UI.Wrapper;
+﻿using DraftTool.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DraftTool.UI.Startup
+namespace DraftTool.UI.Service
 {
-    public interface  IRepo
+    public interface IDBService
     {
         ObservableCollection<CardWrapper> Cards { get; }
         ObservableCollection<SetWrapper> Sets { get; }
