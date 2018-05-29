@@ -86,7 +86,7 @@ namespace DraftTool.UI.ViewModel
 
         private bool OnStartDraftCanExecute()
         {
-            _cards = _DBService.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
+            _cards = _DBService.GetCardsWithNumbers(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             return _cards.Count() >= _numberOfPlayers * _numberOfRounds * _numberOfCards;
         }
     }

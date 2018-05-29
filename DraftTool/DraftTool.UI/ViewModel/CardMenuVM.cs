@@ -1,4 +1,5 @@
-﻿using DraftTool.UI.HelperClasses;
+﻿using DraftTool.UI.Event;
+using DraftTool.UI.HelperClasses;
 using DraftTool.UI.Service;
 using DraftTool.UI.ViewModel.Interfaces;
 using DraftTool.UI.Wrapper;
@@ -20,6 +21,7 @@ namespace DraftTool.UI.ViewModel
         private string _side;
         private IEventAggregator _eventAggregator;
         private IDBService _DBService;
+        private List<CardWrapper> _cards;
 
         public ObservableCollection<string> SideOptions { get; }
         public ItemsChangeObservableCollection<SetWrapper> Sets { get; set; }
@@ -36,7 +38,7 @@ namespace DraftTool.UI.ViewModel
             Sets.CollectionChanged += Sets_CollectionChanged;
             _side = "Corp";
 
-            //StartCardListCommand = new DelegateCommand(OnStartCardList, OnStartCardListCanExecute);
+            StartCardListCommand = new DelegateCommand(OnStartCardList, OnStartCardListCanExecute);
         }
 
         private void Sets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -55,17 +57,17 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
-        //private void OnStartCardList()
-        //{
-        //    _eventAggregator.GetEvent<StartCardListEvent>().Publish(
-        //        new StartCardListEventArgs { CardList = _cards });
-        //    Sets.Clear();
-        //}
+        private void OnStartCardList()
+        {
+            _eventAggregator.GetEvent<StartCardListEvent>().Publish(
+                new StartCardListEventArgs { CardList = _cards });
+            Sets.Clear();
+        }
 
-        //private bool OnStartCardListCanExecute()
-        //{
-        //    _cards = _DBService.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
-        //    return _cards.Count() >= _numberOfPlayers * _numberOfRounds * _numberOfCards;
-        //}
+        private bool OnStartCardListCanExecute()
+        {
+            _cards = _DBService.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
+            return _cards.Count() > 0;
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace DraftTool.UI.Startup
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
 
+            builder.RegisterType<CardMenuVM>().As<ICardMenuVM>();
             builder.RegisterType<CardListVM>().As<ICardListVM>();
             builder.RegisterType<CardVM>().As<ICardVM>();
             builder.RegisterType<GameVM>().As<IGameVM>();

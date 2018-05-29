@@ -10,8 +10,8 @@ namespace DraftTool.UI.Service
 {
     public interface IDBService
     {
-        ObservableCollection<CardWrapper> Cards { get; }
         ObservableCollection<SetWrapper> Sets { get; }
+        List<CardWrapper> GetCardsWithNumbers(string side, IEnumerable<string> sets);
         List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets);
     }
 }

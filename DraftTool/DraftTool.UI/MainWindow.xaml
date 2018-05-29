@@ -14,6 +14,9 @@
         <DataTemplate DataType="{x:Type viewModel:GameVM}">
             <view:GameView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:CardMenuVM}">
+            <view:CardMenuView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:CardListVM}">
             <view:CardListView/>
         </DataTemplate>

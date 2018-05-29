@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DraftTool.UI.Wrapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace DraftTool.UI.ViewModel.Interfaces
 {
     public interface ICardVM
     {
+        CardWrapper Card { get; set; }
+        void OnAddCard();
+        void OnRemoveCard();
     }
 }

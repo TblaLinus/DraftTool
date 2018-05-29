@@ -36,26 +36,43 @@ namespace DraftTool.UI.ViewModel
             _DBService = DBService;
             _cardVMCreator = cardVMCreator;
 
-            CardVMList = new ObservableCollection<ICardVM>();
-            foreach (CardWrapper card in _DBService.Cards)
-            {
-                ICardVM cardVM = _cardVMCreator(card);
-                CardVMList.Add(cardVM);
-            }
+            _eventAggregator.GetEvent<StartCardListEvent>().Subscribe(OnStartCardList);
 
             AddAllCommand = new DelegateCommand(OnAddAll);
             RemoveAllCommand = new DelegateCommand(OnRemoveAll);
             ExitCommand = new DelegateCommand(OnExit);
         }
 
+        private void OnStartCardList(StartCardListEventArgs args)
+        {
+            CardVMList = new ObservableCollection<ICardVM>();
+            foreach (CardWrapper card in args.CardList)
+            {
+                ICardVM cardVM = _cardVMCreator(card);
+                CardVMList.Add(cardVM);
+            }
+        }
+
         private void OnAddAll()
         {
-            _eventAggregator.GetEvent<AddAllEvent>().Publish();
+            foreach(ICardVM card in CardVMList)
+            {
+                while (card.Card.NumberOfUses < card.Card.MaxNumberOfUses)
+                {
+                    card.OnAddCard();
+                }
+            }
         }
 
         private void OnRemoveAll()
         {
-            _eventAggregator.GetEvent<RemoveAllEvent>().Publish();
+            foreach (ICardVM card in CardVMList)
+            {
+                while (card.Card.NumberOfUses > 0)
+                {
+                    card.OnRemoveCard();
+                }
+            }
         }
 
         private void OnExit()

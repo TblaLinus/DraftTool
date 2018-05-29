@@ -24,16 +24,13 @@ namespace DraftTool.UI.ViewModel
         {
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<AddAllEvent>().Subscribe(OnAddAll);
-            _eventAggregator.GetEvent<RemoveAllEvent>().Subscribe(OnRemoveAll);
-
             Card = card;
 
             AddCardCommand = new DelegateCommand(OnAddCard, OnAddCanExecute);
             RemoveCardCommand = new DelegateCommand(OnRemoveCard, OnRemoveCanExecute);
         }
 
-        private void OnAddCard()
+        public void OnAddCard()
         {
             Card.NumberOfUses++;
             _eventAggregator.GetEvent<AddCardEvent>().Publish(new AddCardEventArgs { Name = Card.Name });
@@ -41,24 +38,10 @@ namespace DraftTool.UI.ViewModel
             ((DelegateCommand)RemoveCardCommand).RaiseCanExecuteChanged();
         }
 
-        private void OnRemoveCard()
+        public void OnRemoveCard()
         {
             Card.NumberOfUses--;
             _eventAggregator.GetEvent<RemoveCardEvent>().Publish(new RemoveCardEventArgs { Name = Card.Name });
-            ((DelegateCommand)AddCardCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)RemoveCardCommand).RaiseCanExecuteChanged();
-        }
-
-        private void OnAddAll()
-        {
-            Card.NumberOfUses = Card.MaxNumberOfUses;
-            ((DelegateCommand)AddCardCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)RemoveCardCommand).RaiseCanExecuteChanged();
-        }
-
-        private void OnRemoveAll()
-        {
-            Card.NumberOfUses = 0;
             ((DelegateCommand)AddCardCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)RemoveCardCommand).RaiseCanExecuteChanged();
         }
