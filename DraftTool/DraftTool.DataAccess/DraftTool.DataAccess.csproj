@@ -70,10 +70,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CubeRepo.cs" />
     <Compile Include="DBInitiate.cs" />
-    <Compile Include="IRepo.cs" />
+    <Compile Include="ICubeRepo.cs" />
+    <Compile Include="ICardRepo.cs" />
+    <Compile Include="ISetRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repo.cs" />
+    <Compile Include="CardRepo.cs" />
+    <Compile Include="SetRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

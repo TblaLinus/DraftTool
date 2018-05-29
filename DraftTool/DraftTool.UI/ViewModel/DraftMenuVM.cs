@@ -27,21 +27,23 @@ namespace DraftTool.UI.ViewModel
         private string _side;
         private List<CardWrapper> _cards;
         private IEventAggregator _eventAggregator;
-        private IDBService _DBService;
+        private ICardService _cardService;
+        private ISetService _setService;
 
         public ObservableCollection<int> NumberOfPlayersOptions { get; }
         public ObservableCollection<string> SideOptions { get; }
         public ItemsChangeObservableCollection<SetWrapper> Sets { get; set; }
         public ICommand StartDraftCommand { get; }
 
-        public DraftMenuVM(IEventAggregator eventAggregator, IDBService DBService)
+        public DraftMenuVM(IEventAggregator eventAggregator, ICardService cardService, ISetService setService)
         {
             _eventAggregator = eventAggregator;
-            _DBService = DBService;
+            _cardService = cardService;
+            _setService = setService;
 
             NumberOfPlayersOptions = new ObservableCollection<int> { 2, 3, 4, 5, 6 };
             SideOptions = new ObservableCollection<string> { "Corp", "Runner" };
-            Sets = new ItemsChangeObservableCollection<SetWrapper>(_DBService.Sets);
+            Sets = new ItemsChangeObservableCollection<SetWrapper>(_setService.Sets);
 
             Sets.CollectionChanged += Sets_CollectionChanged;
             _numberOfPlayers = 2;
@@ -86,7 +88,7 @@ namespace DraftTool.UI.ViewModel
 
         private bool OnStartDraftCanExecute()
         {
-            _cards = _DBService.GetCardsWithNumbers(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
+            _cards = _cardService.GetCardsWithNumbers(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             return _cards.Count() >= _numberOfPlayers * _numberOfRounds * _numberOfCards;
         }
     }

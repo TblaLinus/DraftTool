@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Service
 {
-    public interface IDBService
+    public interface ISetService
     {
         ObservableCollection<SetWrapper> Sets { get; }
-        List<CardWrapper> GetCardsWithNumbers(string side, IEnumerable<string> sets);
-        List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets);
     }
 }

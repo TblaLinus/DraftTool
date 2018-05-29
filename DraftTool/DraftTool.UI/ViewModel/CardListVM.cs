@@ -20,7 +20,7 @@ namespace DraftTool.UI.ViewModel
     public class CardListVM : ViewModelBase, ICardListVM
     {
         private IEventAggregator _eventAggregator;
-        private IDBService _DBService;
+        private ICardService _cardService;
         private Func<CardWrapper, ICardVM> _cardVMCreator;
 
         public ObservableCollection<ICardVM> CardVMList { get; set; }
@@ -30,10 +30,10 @@ namespace DraftTool.UI.ViewModel
         public ICommand RemoveAllCommand { get; }
         public ICommand ExitCommand { get; }
 
-        public CardListVM(IEventAggregator eventAggregator, IDBService DBService, Func<CardWrapper, ICardVM> cardVMCreator)
+        public CardListVM(IEventAggregator eventAggregator, ICardService cardService, Func<CardWrapper, ICardVM> cardVMCreator)
         {
             _eventAggregator = eventAggregator;
-            _DBService = DBService;
+            _cardService = cardService;
             _cardVMCreator = cardVMCreator;
 
             _eventAggregator.GetEvent<StartCardListEvent>().Subscribe(OnStartCardList);

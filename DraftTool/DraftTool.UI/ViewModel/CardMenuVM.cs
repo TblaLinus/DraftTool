@@ -20,20 +20,22 @@ namespace DraftTool.UI.ViewModel
     {
         private string _side;
         private IEventAggregator _eventAggregator;
-        private IDBService _DBService;
+        private ICardService _cardService;
+        private ISetService _setService;
         private List<CardWrapper> _cards;
 
         public ObservableCollection<string> SideOptions { get; }
         public ItemsChangeObservableCollection<SetWrapper> Sets { get; set; }
         public ICommand StartCardListCommand { get; }
 
-        public CardMenuVM(IEventAggregator eventAggregator, IDBService DBService)
+        public CardMenuVM(IEventAggregator eventAggregator, ICardService cardService, ISetService setService)
         {
             _eventAggregator = eventAggregator;
-            _DBService = DBService;
+            _cardService = cardService;
+            _setService = setService;
 
             SideOptions = new ObservableCollection<string> { "Corp", "Runner" };
-            Sets = new ItemsChangeObservableCollection<SetWrapper>(_DBService.Sets);
+            Sets = new ItemsChangeObservableCollection<SetWrapper>(_setService.Sets);
 
             Sets.CollectionChanged += Sets_CollectionChanged;
             _side = "Corp";
@@ -66,7 +68,7 @@ namespace DraftTool.UI.ViewModel
 
         private bool OnStartCardListCanExecute()
         {
-            _cards = _DBService.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
+            _cards = _cardService.GetUsedCards(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             return _cards.Count() > 0;
         }
     }

@@ -15,11 +15,16 @@ namespace DraftTool.UI.Startup
 
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<DBService>().As<IDBService>().SingleInstance();
+            builder.RegisterType<CardService>().As<ICardService>().SingleInstance();
+            builder.RegisterType<SetService>().As<ISetService>().SingleInstance();
+            builder.RegisterType<CubeService>().As<ICubeService>().SingleInstance();
             builder.RegisterType<GameEngine>().As<IGameEngine>().SingleInstance();
-            builder.RegisterType<Repo>().As<IRepo>().SingleInstance();
+            builder.RegisterType<CardRepo>().As<ICardRepo>().SingleInstance();
+            builder.RegisterType<SetRepo>().As<ISetRepo>().SingleInstance();
+            builder.RegisterType<CubeRepo>().As<ICubeRepo>().SingleInstance();
 
             builder.RegisterType<DBInitiate>().AsSelf();
+            builder.RegisterType<DBServiceBase>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
 

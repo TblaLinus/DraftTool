@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace DraftTool.DataAccess
 {
-    public interface IRepo
+    public interface ICardRepo
     {
         List<Card> GetCards();
         void AddCard(Card card);
         void DeleteCard(string name);
-        List<Set> GetSets();
-        void AddSet(Set set);
-        void DeleteSet(string name);
+        
     }
 }

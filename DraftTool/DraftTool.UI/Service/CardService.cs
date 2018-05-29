@@ -5,25 +5,20 @@ using DraftTool.UI.Wrapper;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DraftTool.UI.Service
 {
-    public class DBService : IDBService
+    public class CardService : DBServiceBase, ICardService
     {
-        private IEventAggregator _eventAggregator;
-        private IRepo _repo;
+        private ICardRepo _repo;
         private List<CardWrapper> _cards { get; }
         private List<CardWrapper> _cardsWithNumbers;
 
-        public ObservableCollection<SetWrapper> Sets { get; }
-
-        public DBService(IEventAggregator eventAggregator, IRepo repo)
+        public CardService(IEventAggregator eventAggregator, ICardRepo repo) : base(eventAggregator)
         {
-            _eventAggregator = eventAggregator;
             _repo = repo;
             _cardsWithNumbers = new List<CardWrapper>();
 
@@ -40,14 +35,6 @@ namespace DraftTool.UI.Service
                 {
                     _cardsWithNumbers.Add(card);
                 }
-            }
-
-            Sets = new ObservableCollection<SetWrapper>();
-            foreach (Set DBset in _repo.GetSets())
-            {
-                SetWrapper set = new SetWrapper(DBset);
-                set.IsUsed = false;
-                Sets.Add(set);
             }
         }
 

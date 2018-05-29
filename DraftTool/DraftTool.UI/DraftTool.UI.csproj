@@ -108,10 +108,15 @@
     <Compile Include="Event\StartCardListEvent.cs" />
     <Compile Include="Event\StartDraftEvent.cs" />
     <Compile Include="HelperClasses\ItemsChangeObservableCollection.cs" />
-    <Compile Include="Service\DBService.cs" />
+    <Compile Include="Service\CardService.cs" />
+    <Compile Include="Service\CubeService.cs" />
+    <Compile Include="Service\DBServiceBase.cs" />
     <Compile Include="Service\GameEngine.cs" />
-    <Compile Include="Service\IDBService.cs" />
+    <Compile Include="Service\ICardService.cs" />
+    <Compile Include="Service\ICubeService.cs" />
     <Compile Include="Service\IGameEngine.cs" />
+    <Compile Include="Service\ISetService.cs" />
+    <Compile Include="Service\SetService.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
     <Compile Include="ViewModel\CardMenuVM.cs" />
@@ -157,6 +162,7 @@
       <DependentUpon>ResultView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrapper\CardWrapper.cs" />
+    <Compile Include="Wrapper\CubeWrapper.cs" />
     <Compile Include="Wrapper\SetWrapper.cs" />
     <Compile Include="Wrapper\WrapperBase.cs" />
     <Page Include="MainWindow.xaml">
