@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 
 namespace DraftTool.UI.Wrapper
 {
-    class CubeWrapper : WrapperBase<Cube>
+    public class CubeWrapper : WrapperBase<Cube>
     {
         public CubeWrapper(Cube model) : base(model)
         {
         }
 
-        public string CardNames
+        public string Name
         {
             get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public List<string> CardNames
+        {
+            get { return GetValue<List<string>>(); }
             set { SetValue(value); }
         }
     }

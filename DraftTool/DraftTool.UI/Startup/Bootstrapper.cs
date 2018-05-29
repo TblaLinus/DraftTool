@@ -13,7 +13,6 @@ namespace DraftTool.UI.Startup
         {
             var builder = new ContainerBuilder();
 
-
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<CardService>().As<ICardService>().SingleInstance();
             builder.RegisterType<SetService>().As<ISetService>().SingleInstance();
