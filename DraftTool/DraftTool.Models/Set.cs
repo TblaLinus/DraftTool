@@ -9,6 +9,5 @@ namespace DraftTool.Models
     public class Set
     {
         public string Name { get; set; }
-        public bool IsUsed { get; set; }
     }
 }

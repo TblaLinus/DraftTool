@@ -12,5 +12,8 @@ namespace DraftTool.DataAccess
         List<Card> GetCards();
         void AddCard(Card card);
         void DeleteCard(string name);
+        List<Set> GetSets();
+        void AddSet(Set set);
+        void DeleteSet(string name);
     }
 }

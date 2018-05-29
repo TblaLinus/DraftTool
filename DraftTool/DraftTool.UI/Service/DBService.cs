@@ -33,22 +33,27 @@ namespace DraftTool.UI.Service
             _eventAggregator.GetEvent<RemoveAllEvent>().Subscribe(OnRemoveAll);
 
             Cards = new ObservableCollection<CardWrapper>();
+            foreach (Card DBcard in _repo.GetCards())
+            {
+                CardWrapper card = new CardWrapper(DBcard);
+                card.NumberOfUses = card.MaxNumberOfUses;
+                Cards.Add(card);
+                for (int j = 0; j < card.MaxNumberOfUses; j++)
+                {
+                    _cardsWithNumbers.Add(card);
+                }
+            }
+
+         
+
             Sets = new ObservableCollection<SetWrapper>();
+            foreach (Set DBset in _repo.GetSets())
+            {
+                SetWrapper set = new SetWrapper(DBset);
+                set.IsUsed = false;
+                Sets.Add(set);
+            }
 
-            //foreach (CardWrapper card in Cards)
-            //{
-            //    for (int j = 0; j < card.MaxNumberOfUses; j++)
-            //    {
-            //        _cardsWithNumbers.Add(card);
-            //    }
-            //}
-
-            Set core = new Set { Name = "Core" };
-            SetWrapper coreWrapper = new SetWrapper(core) { IsUsed = false };
-            Sets.Add(coreWrapper);
-            Set cac = new Set { Name = "Creation & Control" };
-            SetWrapper cacWrapper = new SetWrapper(cac) { IsUsed = false };
-            Sets.Add(cacWrapper);
         }
 
         private void OnAddCard(AddCardEventArgs args)
