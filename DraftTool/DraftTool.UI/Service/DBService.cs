@@ -24,6 +24,7 @@ namespace DraftTool.UI.Service
         public DBService(IEventAggregator eventAggregator, IRepo repo)
         {
             _eventAggregator = eventAggregator;
+            _repo = repo;
             _cardsWithNumbers = new List<CardWrapper>();
 
             _eventAggregator.GetEvent<AddCardEvent>().Subscribe(OnAddCard);
@@ -34,70 +35,13 @@ namespace DraftTool.UI.Service
             Cards = new ObservableCollection<CardWrapper>();
             Sets = new ObservableCollection<SetWrapper>();
 
-            for (int i = 1; i <= 53; i++)
-            {
-                Card card = new Card();
-                CardWrapper cardWrapper = new CardWrapper(card)
-                {
-                    Name = $"RunnerCard C{i}",
-                    Side = "Runner",
-                    Set = "Core",
-                    ImageURL = "https://netrunnerdb.com/card_image/01" + (i).ToString("D3") + ".png",
-                    NumberOfUses = 3,
-                    MaxNumberOfUses = 3
-                };
-                Cards.Add(cardWrapper);
-            }
-            for (int i = 1; i <= 60; i++)
-            {
-                Card card = new Card();
-                CardWrapper cardWrapper = new CardWrapper(card)
-                {
-                    Name = $"CorpCard C{i}",
-                    Side = "Corp",
-                    Set = "Core",
-                    ImageURL = "https://netrunnerdb.com/card_image/01" + (53 + i).ToString("D3") + ".png",
-                    NumberOfUses = 3,
-                    MaxNumberOfUses = 3
-                };
-                Cards.Add(cardWrapper);
-            }
-
-            for (int i = 1; i <= 27; i++)
-            {
-                Card card = new Card();
-                CardWrapper cardWrapper = new CardWrapper(card)
-                {
-                    Name = $"CorpCard G{i}",
-                    Side = "Corp",
-                    Set = "Creation & Control",
-                    ImageURL = "https://netrunnerdb.com/card_image/03" + (i).ToString("D3") + ".png",
-                    NumberOfUses = 3,
-                    MaxNumberOfUses = 3
-                };
-                Cards.Add(cardWrapper);
-            }
-            for (int i = 1; i <= 28; i++)
-            {
-                Card card = new Card();
-                CardWrapper cardWrapper = new CardWrapper(card)
-                {
-                    Name = $"RunnerCard G{i}",
-                    Side = "Runner",
-                    Set = "Creation & Control",
-                    ImageURL = "https://netrunnerdb.com/card_image/03" + (27 + i).ToString("D3") + ".png",
-                    NumberOfUses = 3,
-                    MaxNumberOfUses = 3
-                };
-                Cards.Add(cardWrapper);
-            }
-            foreach (CardWrapper card in Cards)
-            {
-                for (int j = 0; j < card.MaxNumberOfUses; j++)
-                {
-                    _cardsWithNumbers.Add(card);
-                }
-            }
+            //foreach (CardWrapper card in Cards)
+            //{
+            //    for (int j = 0; j < card.MaxNumberOfUses; j++)
+            //    {
+            //        _cardsWithNumbers.Add(card);
+            //    }
+            //}
 
             Set core = new Set { Name = "Core" };
             SetWrapper coreWrapper = new SetWrapper(core) { IsUsed = false };
@@ -132,6 +76,11 @@ namespace DraftTool.UI.Service
         private void OnRemoveAll()
         {
             _cardsWithNumbers.Clear();
+        }
+
+        private void AddCardToDB(Card card)
+        {
+            _repo.AddCard(card);
         }
 
         public List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets)

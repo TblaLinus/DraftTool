@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DraftTool.DataAccess
 {
-    public class Repo : DraftToolDBContext, IRepo
+    public class Repo : DBInitiate, IRepo
     {
         public Repo()
         {
@@ -26,10 +26,10 @@ namespace DraftTool.DataAccess
                                     [MaxNumberOfUses] INT NOT NULL
                                     )";
 
-            using (_database)
+            using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {
-                _database.Open();
-                SQLiteCommand cmd = new SQLiteCommand { CommandText = sql, Connection = _database };
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand { CommandText = sql, Connection = conn };
                 cmd.ExecuteNonQuery();
             }
         }
@@ -40,10 +40,10 @@ namespace DraftTool.DataAccess
 
             string sql = "Select * FROM [Cards]";
 
-            using (_database)
+            using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {
-                _database.Open();
-                SQLiteCommand cmd = new SQLiteCommand { CommandText = sql, Connection = _database };
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand { CommandText = sql, Connection = conn };
                 SQLiteDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -58,6 +58,31 @@ namespace DraftTool.DataAccess
                     cards.Add(card);
                 }
                 return cards;
+            }
+        }
+
+        public void AddCard(Card card)
+        {
+            string sql = $@"INSERT INTO [Cards]([Name], [ImageURL], [Side], [Set], [MaxNumberOfUses]) 
+                         VALUES('{card.Name}', '{card.ImageURL}', '{card.Side}', '{card.Set}', '{card.MaxNumberOfUses}')";
+
+            using (SQLiteConnection conn = new SQLiteConnection(DBSource))
+            {
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand { CommandText = sql, Connection = conn };
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteCard(string name)
+        {
+            string sql = $@"DELETE FROM [Cards] WHERE Name=''{name}''";
+
+            using (SQLiteConnection conn = new SQLiteConnection(DBSource))
+            {
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand { CommandText = sql, Connection = conn };
+                cmd.ExecuteNonQuery();
             }
         }
     }

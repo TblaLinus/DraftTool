@@ -9,21 +9,17 @@ using System.Threading.Tasks;
 
 namespace DraftTool.DataAccess
 {
-    public class DraftToolDBContext
+    public class DBInitiate
     {
         private const string DBPath = "../../../database.db";
-        private const string DBSource = "data source=" + DBPath;
+        protected const string DBSource = "data source=" + DBPath;
 
-        protected readonly SQLiteConnection _database;
-
-        protected DraftToolDBContext()
+        protected DBInitiate()
         {
             if (!File.Exists(DBPath))
             {
                 SQLiteConnection.CreateFile(DBPath);
             }
-           
-            _database = new SQLiteConnection(DBSource);
         }
     }
 }

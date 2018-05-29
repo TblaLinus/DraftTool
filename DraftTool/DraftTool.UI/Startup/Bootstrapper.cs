@@ -19,7 +19,7 @@ namespace DraftTool.UI.Startup
             builder.RegisterType<GameEngine>().As<IGameEngine>().SingleInstance();
             builder.RegisterType<Repo>().As<IRepo>().SingleInstance();
 
-            builder.RegisterType<DraftToolDBContext>().AsSelf();
+            builder.RegisterType<DBInitiate>().AsSelf();
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
 
