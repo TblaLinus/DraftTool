@@ -5,6 +5,8 @@ namespace DraftTool.UI.Service
 {
     public interface ICubeService
     {
+        void AddCube(CubeWrapper cube);
+        void DeleteCube(CubeWrapper cube);
         List<CubeWrapper> GetCubes();
     }
 }

@@ -35,6 +35,7 @@ namespace DraftTool.UI.Startup
             builder.RegisterType<DraftVM>().As<IDraftVM>();
             builder.RegisterType<PlayerReadyVM>().As<IPlayerReadyVM>();
             builder.RegisterType<ResultVM>().As<IResultVM>();
+            builder.RegisterType<AddRemoveVM>().As<IAddRemoveVM>();
 
             return builder.Build();
         }

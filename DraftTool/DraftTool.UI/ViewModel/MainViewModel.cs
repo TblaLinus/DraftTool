@@ -14,17 +14,20 @@ namespace DraftTool.UI.ViewModel
         private Func<IGameVM> _gameVMCreator;
         private Func<ICardMenuVM> _cardMenuVMCreator;
         private ICardListVM _cardListVM;
+        private IAddRemoveVM _addRemoveVM;
         private IViewModelBase _activePage;
 
         public ICommand NewDraftCommand { get; }
         public ICommand GoToCardListCommand { get; }
+        public ICommand GoToAddRemoveCommand { get; }
         public ICommand ExitApplicationCommand { get; }
 
-        public MainViewModel(IEventAggregator eventAggregator, Func<ICardMenuVM> cardMenuVMCreator, ICardListVM cardListVM, Func<IGameVM> gameVMCreator)
+        public MainViewModel(IEventAggregator eventAggregator, Func<ICardMenuVM> cardMenuVMCreator, ICardListVM cardListVM, IAddRemoveVM addRemoveVM, Func<IGameVM> gameVMCreator)
         {
             _eventAggregator = eventAggregator;
             _cardMenuVMCreator = cardMenuVMCreator;
             _cardListVM = cardListVM;
+            _addRemoveVM = addRemoveVM;
             _gameVMCreator = gameVMCreator;
 
             _eventAggregator.GetEvent<BackToMainEvent>().Subscribe(OnFinishedDraft);
@@ -32,6 +35,7 @@ namespace DraftTool.UI.ViewModel
 
             NewDraftCommand = new DelegateCommand(OnNewDraft);
             GoToCardListCommand = new DelegateCommand(OnGoToCardList);
+            GoToAddRemoveCommand = new DelegateCommand(OnGoToAddRemove);
             ExitApplicationCommand = new DelegateCommand(OnExitApplication);
         }
 
@@ -58,6 +62,11 @@ namespace DraftTool.UI.ViewModel
         private void OnStartCardList(StartCardListEventArgs args)
         {
             ActivePage = (IViewModelBase)_cardListVM;
+        }
+
+        private void OnGoToAddRemove()
+        {
+            ActivePage = (IViewModelBase)_addRemoveVM;
         }
 
         private void OnFinishedDraft()

@@ -11,8 +11,9 @@ namespace DraftTool.UI.Service
     public class CardService : DBServiceBase, ICardService
     {
         private ICardRepo _repo;
-        private List<CardWrapper> _cards { get; }
         private List<CardWrapper> _cardsWithNumbers;
+
+        public List<CardWrapper> Cards { get; }
 
         public CardService(IEventAggregator eventAggregator, ICardRepo repo) : base(eventAggregator)
         {
@@ -22,12 +23,12 @@ namespace DraftTool.UI.Service
             _eventAggregator.GetEvent<AddCardEvent>().Subscribe(OnAddCard);
             _eventAggregator.GetEvent<RemoveCardEvent>().Subscribe(OnRemoveCard);
 
-            _cards = new List<CardWrapper>();
+            Cards = new List<CardWrapper>();
             foreach (Card DBcard in _repo.GetCards())
             {
                 CardWrapper card = new CardWrapper(DBcard);
                 card.NumberOfUses = card.MaxNumberOfUses;
-                _cards.Add(card);
+                Cards.Add(card);
                 for (int j = 0; j < card.MaxNumberOfUses; j++)
                 {
                     _cardsWithNumbers.Add(card);
@@ -37,7 +38,7 @@ namespace DraftTool.UI.Service
 
         private void OnAddCard(AddCardEventArgs args)
         {
-            _cardsWithNumbers.Add(_cards.Single(c => c.Name == args.Name));
+            _cardsWithNumbers.Add(Cards.Single(c => c.Name == args.Name));
         }
 
         private void OnRemoveCard(RemoveCardEventArgs args)
@@ -45,9 +46,14 @@ namespace DraftTool.UI.Service
             _cardsWithNumbers.Remove(_cardsWithNumbers.Where(c => c.Name == args.Name).Last());
         }
 
-        private void AddCardToDB(Card card)
+        public void AddCardToDB(CardWrapper card)
         {
-            _repo.AddCard(card);
+            _repo.AddCard(card.Model);
+        }
+
+        public void DeleteCardFromDB(CardWrapper card)
+        {
+            _repo.DeleteCard(card.Name);
         }
 
         public List<CardWrapper> GetCardsWithNumbers(string side, IEnumerable<string> sets)
@@ -58,7 +64,7 @@ namespace DraftTool.UI.Service
 
         public List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets)
         {
-            List<CardWrapper> returnDeck = _cards.Where(c => c.Side == side && sets.Contains(c.Set)).ToList();
+            List<CardWrapper> returnDeck = Cards.Where(c => c.Side == side && sets.Contains(c.Set)).ToList();
             return returnDeck;
         }
 
@@ -67,7 +73,7 @@ namespace DraftTool.UI.Service
             List<CardWrapper> returnDeck = new List<CardWrapper>();
             foreach (string name in cardNames)
             {
-                CardWrapper card = _cards.Single(c => c.Name == name);
+                CardWrapper card = Cards.Single(c => c.Name == name);
                 returnDeck.Add(card);
             }
             return returnDeck;

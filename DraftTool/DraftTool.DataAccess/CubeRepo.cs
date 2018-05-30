@@ -86,7 +86,7 @@ namespace DraftTool.DataAccess
 
         public void DeleteCard(string cardName, string cubeName)
         {
-            string sql = $"DELETE FROM [CubeCards] WHERE CardName='{cardName}' AND CubeName=''{cubeName}";
+            string sql = $"DELETE FROM [CubeCards] WHERE CardName='{cardName}' AND CubeName='{cubeName}'";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {

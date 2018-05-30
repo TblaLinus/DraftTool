@@ -31,8 +31,7 @@ namespace DraftTool.DataAccess
 
         public void AddSet(Set set)
         {
-            string sql = $@"INSERT INTO [Sets]([Name]) 
-                         VALUES('{set.Name}')";
+            string sql = $"INSERT INTO [Sets]([Name]) VALUES('{set.Name}')";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {
@@ -44,7 +43,7 @@ namespace DraftTool.DataAccess
 
         public void DeleteSet(string name)
         {
-            string sql = $@"DELETE FROM [Sets] WHERE Name='{name}'";
+            string sql = $"DELETE FROM [Sets] WHERE Name='{name}'";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {

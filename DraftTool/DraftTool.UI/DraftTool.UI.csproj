@@ -100,7 +100,6 @@
     <Compile Include="Event\BackToMainEvent.cs" />
     <Compile Include="Event\AddCardEvent.cs" />
     <Compile Include="Event\CreateCardListEvent.cs" />
-    <Compile Include="Event\DeleteCubeEvent.cs" />
     <Compile Include="Event\PlayerDoneEvent.cs" />
     <Compile Include="Event\PlayerReadyEvent.cs" />
     <Compile Include="Event\RemoveCardEvent.cs" />
@@ -120,12 +119,14 @@
     <Compile Include="Service\ISetService.cs" />
     <Compile Include="Service\SetService.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="ViewModel\AddRemoveVM.cs" />
     <Compile Include="ViewModel\CardListVM.cs" />
     <Compile Include="ViewModel\CardMenuVM.cs" />
     <Compile Include="ViewModel\CardVM.cs" />
     <Compile Include="ViewModel\DraftMenuVM.cs" />
     <Compile Include="ViewModel\DraftVM.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
+    <Compile Include="ViewModel\Interfaces\IAddRemoveVM.cs" />
     <Compile Include="ViewModel\Interfaces\ICardListVM.cs" />
     <Compile Include="ViewModel\Interfaces\ICardMenuVM.cs" />
     <Compile Include="ViewModel\Interfaces\ICardVM.cs" />
@@ -139,6 +140,9 @@
     <Compile Include="ViewModel\PlayerReadyVM.cs" />
     <Compile Include="ViewModel\ResultVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AddRemoveView.xaml.cs">
+      <DependentUpon>AddRemoveView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CardListView.xaml.cs">
       <DependentUpon>CardListView.xaml</DependentUpon>
     </Compile>
@@ -179,6 +183,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddRemoveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CardListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

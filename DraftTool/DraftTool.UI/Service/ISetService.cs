@@ -1,10 +1,12 @@
 ﻿using DraftTool.UI.Wrapper;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace DraftTool.UI.Service
 {
     public interface ISetService
     {
-        ObservableCollection<SetWrapper> Sets { get; }
+        List<SetWrapper> Sets { get; }
+        void AddSetToDB(SetWrapper set);
+        void DeleteSetFromDB(SetWrapper set);
     }
 }

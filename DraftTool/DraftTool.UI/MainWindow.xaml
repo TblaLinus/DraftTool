@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type viewModel:CardListVM}">
             <view:CardListView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AddRemoveVM}">
+            <view:AddRemoveView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,6 +31,7 @@
         <Menu Grid.Row="0" FontSize="20">
             <MenuItem Header="New Draft" Command="{Binding NewDraftCommand}"/>
             <MenuItem Header="Cardlist" Command="{Binding GoToCardListCommand}"/>
+            <MenuItem Header="Add/Delete" Command="{Binding GoToAddRemoveCommand}"/>
             <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}"/>
         </Menu>
         <ContentPresenter Grid.Row="1" Content="{Binding ActivePage}"/>

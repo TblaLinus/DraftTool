@@ -75,8 +75,9 @@ namespace DraftTool.UI.ViewModel
             CubeWrapper cube = new CubeWrapper(new Cube());
             cube.Name = CubeName;
             cube.CardNames = _cardService.GetCardsWithNumbers(_side, _sets.Select(s => s.Name)).Select(c => c.Name).ToList();
-            _eventAggregator.GetEvent<AddCubeEvent>().Publish(
-                new AddCubeEventArgs { Cube = cube });
+            _cubeService.AddCube(cube);
+            CubeName = "";
+            _eventAggregator.GetEvent<AddCubeEvent>().Publish( new AddCubeEventArgs { Cube = cube });
         }
 
         private void OnAddAll()

@@ -1,6 +1,5 @@
 ﻿using DraftTool.DataAccess;
 using DraftTool.Models;
-using DraftTool.UI.Event;
 using DraftTool.UI.Wrapper;
 using Prism.Events;
 using System.Collections.Generic;
@@ -13,26 +12,23 @@ namespace DraftTool.UI.Service
         public CubeService(IEventAggregator eventAggregator, ICubeRepo repo) : base(eventAggregator)
         {
             _repo = repo;
-
-            _eventAggregator.GetEvent<AddCubeEvent>().Subscribe(OnAddCube);
-            _eventAggregator.GetEvent<DeleteCubeEvent>().Subscribe(OnDeleteCube);
         }
 
-        private void OnAddCube(AddCubeEventArgs args)
+        public void AddCube(CubeWrapper cube)
         {
-            _repo.AddCube(args.Cube.Model);
-            foreach(string card in args.Cube.CardNames)
+            _repo.AddCube(cube.Model);
+            foreach(string card in cube.CardNames)
             {
-                _repo.AddCard(card, args.Cube.Name);
+                _repo.AddCard(card, cube.Name);
             }
         }
 
-        private void OnDeleteCube(DeleteCubeEventArgs args)
+        public void DeleteCube(CubeWrapper cube)
         {
-            _repo.DeleteCube(args.Cube.Name);
-            foreach (string card in args.Cube.CardNames)
+            _repo.DeleteCube(cube.Name);
+            foreach (string card in cube.CardNames)
             {
-                _repo.DeleteCard(card, args.Cube.Name);
+                _repo.DeleteCard(card, cube.Name);
             }
         }
 
