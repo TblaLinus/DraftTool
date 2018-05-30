@@ -35,8 +35,7 @@ namespace DraftTool.DataAccess
 
         public void AddCube(Cube cube)
         {
-            string sql = $@"INSERT INTO [Cubes]([Name]) 
-                         VALUES('{cube.Name}'";
+            string sql = $"INSERT INTO [Cubes]([Name]) VALUES('{cube.Name}')";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {
@@ -48,7 +47,7 @@ namespace DraftTool.DataAccess
 
         public void DeleteCube(string name)
         {
-            string sql = $@"DELETE FROM [Cubes] WHERE Name='{name}'";
+            string sql = $"DELETE FROM [Cubes] WHERE Name='{name}'";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {
@@ -79,8 +78,7 @@ namespace DraftTool.DataAccess
 
         public void AddCard(string cardName, string cubeName)
         {
-            string sql = $@"INSERT INTO [CubeCards]([CardName], [CubeName]) 
-                         VALUES('{cardName}', '{cubeName}'";
+            string sql = $"INSERT INTO [CubeCards]([CardName], [CubeName]) VALUES('{cardName}', '{cubeName}')";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {
@@ -92,7 +90,7 @@ namespace DraftTool.DataAccess
 
         public void DeleteCard(string cardName, string cubeName)
         {
-            string sql = $@"DELETE FROM [CubeCards] WHERE CardName='{cardName}' AND CubeName=''{cubeName}";
+            string sql = $"DELETE FROM [CubeCards] WHERE CardName='{cardName}' AND CubeName=''{cubeName}";
 
             using (SQLiteConnection conn = new SQLiteConnection(DBSource))
             {

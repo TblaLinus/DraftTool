@@ -14,6 +14,7 @@ namespace DraftTool.UI.Event
 
     public class StartCardListEventArgs
     {
-        public List<CardWrapper> CardList { get; set; }
+        public string Side { get; set; }
+        public List<SetWrapper> Sets { get; set; }
     }
 }

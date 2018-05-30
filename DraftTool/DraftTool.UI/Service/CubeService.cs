@@ -45,6 +45,7 @@ namespace DraftTool.UI.Service
             List<CubeWrapper> cubes = new List<CubeWrapper>();
             foreach (Cube cube in _repo.GetCubes())
             {
+                cube.CardNames = new List<string>();
                 foreach (string cardName in _repo.GetCards(cube.Name))
                 {
                     cube.CardNames.Add(cardName);

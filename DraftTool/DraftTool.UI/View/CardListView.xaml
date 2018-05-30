@@ -37,6 +37,10 @@
         </ListBox>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBox FontSize="30" Height="50" Width="400" Text="{Binding CubeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button HorizontalAlignment="Center" Height="50" Width="200" Margin="10" Command="{Binding SaveCubeCommand}">
+                <TextBlock FontSize="30" FontWeight="Bold" VerticalAlignment="Center">Save As Cube</TextBlock>
+            </Button>
             <Button HorizontalAlignment="Center" Height="50" Width="200" Margin="10" Command="{Binding AddAllCommand}">
                 <TextBlock FontSize="30" FontWeight="Bold" VerticalAlignment="Center">Add All</TextBlock>
             </Button>

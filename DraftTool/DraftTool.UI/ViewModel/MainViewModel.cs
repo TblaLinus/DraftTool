@@ -16,7 +16,7 @@ namespace DraftTool.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private Func<IGameVM> _gameVMCreator;
-        private ICardMenuVM _cardMenuVM;
+        private Func<ICardMenuVM> _cardMenuVMCreator;
         private ICardListVM _cardListVM;
         private IViewModelBase _activePage;
 
@@ -24,10 +24,10 @@ namespace DraftTool.UI.ViewModel
         public ICommand GoToCardListCommand { get; }
         public ICommand ExitApplicationCommand { get; }
 
-        public MainViewModel(IEventAggregator eventAggregator, ICardMenuVM cardMenuVM, ICardListVM cardListVM, Func<IGameVM> gameVMCreator)
+        public MainViewModel(IEventAggregator eventAggregator, Func<ICardMenuVM> cardMenuVMCreator, ICardListVM cardListVM, Func<IGameVM> gameVMCreator)
         {
             _eventAggregator = eventAggregator;
-            _cardMenuVM = cardMenuVM;
+            _cardMenuVMCreator = cardMenuVMCreator;
             _cardListVM = cardListVM;
             _gameVMCreator = gameVMCreator;
 
@@ -56,7 +56,7 @@ namespace DraftTool.UI.ViewModel
 
         private void OnGoToCardList()
         {
-            ActivePage = (IViewModelBase)_cardMenuVM;
+            ActivePage = (IViewModelBase)_cardMenuVMCreator();
         }
 
         private void OnStartCardList(StartCardListEventArgs args)

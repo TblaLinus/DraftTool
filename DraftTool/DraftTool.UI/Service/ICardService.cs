@@ -11,5 +11,6 @@ namespace DraftTool.UI.Service
     {
         List<CardWrapper> GetCardsWithNumbers(string side, IEnumerable<string> sets);
         List<CardWrapper> GetUsedCards(string side, IEnumerable<string> sets);
+        List<CardWrapper> GetCardsByNames(IEnumerable<string> cardNames);
     }
 }

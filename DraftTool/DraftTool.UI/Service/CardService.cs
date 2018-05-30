@@ -64,5 +64,16 @@ namespace DraftTool.UI.Service
             List<CardWrapper> returnDeck = _cards.Where(c => c.Side == side && sets.Contains(c.Set)).ToList();
             return returnDeck;
         }
+
+        public List<CardWrapper> GetCardsByNames (IEnumerable<string> cardNames)
+        {
+            List<CardWrapper> returnDeck = new List<CardWrapper>();
+            foreach (string name in cardNames)
+            {
+                CardWrapper card = _cards.Single(c => c.Name == name);
+                returnDeck.Add(card);
+            }
+            return returnDeck;
+        }
     }
 }

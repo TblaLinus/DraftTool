@@ -21,36 +21,66 @@ namespace DraftTool.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private ICardService _cardService;
+        private ICubeService _cubeService;
         private Func<CardWrapper, ICardVM> _cardVMCreator;
+        private string _side;
+        private List<SetWrapper> _sets;
+        private string _cubeName;
 
         public ObservableCollection<ICardVM> CardVMList { get; set; }
         public ICommand AddCardCommand { get; }
         public ICommand RemoveCardCommand { get; }
+        public ICommand SaveCubeCommand { get; }
         public ICommand AddAllCommand { get; }
         public ICommand RemoveAllCommand { get; }
         public ICommand ExitCommand { get; }
 
-        public CardListVM(IEventAggregator eventAggregator, ICardService cardService, Func<CardWrapper, ICardVM> cardVMCreator)
+        public CardListVM(IEventAggregator eventAggregator, ICardService cardService, ICubeService cubeService, Func<CardWrapper, ICardVM> cardVMCreator)
         {
             _eventAggregator = eventAggregator;
             _cardService = cardService;
+            _cubeService = cubeService;
             _cardVMCreator = cardVMCreator;
 
             _eventAggregator.GetEvent<StartCardListEvent>().Subscribe(OnStartCardList);
 
+            SaveCubeCommand = new DelegateCommand(OnSaveCube, OnSaveCubeCanExecute);
             AddAllCommand = new DelegateCommand(OnAddAll);
             RemoveAllCommand = new DelegateCommand(OnRemoveAll);
             ExitCommand = new DelegateCommand(OnExit);
         }
 
+        public string CubeName
+        {
+            get { return _cubeName; }
+            set
+            {
+                _cubeName = value;
+                OnPropertyChanged();
+                ((DelegateCommand)SaveCubeCommand).RaiseCanExecuteChanged();
+            }
+        }
+
         private void OnStartCardList(StartCardListEventArgs args)
         {
+            _side = args.Side;
+            _sets = args.Sets;
+            List<CardWrapper> cards = _cardService.GetUsedCards( _side, _sets.Select(s => s.Name));
             CardVMList = new ObservableCollection<ICardVM>();
-            foreach (CardWrapper card in args.CardList)
+            foreach (CardWrapper card in cards)
             {
                 ICardVM cardVM = _cardVMCreator(card);
                 CardVMList.Add(cardVM);
             }
+        }
+
+        private void OnSaveCube()
+        {
+            CubeWrapper cube = new CubeWrapper(new Cube());
+            cube.Name = CubeName;
+            cube.CardNames = _cardService.GetCardsWithNumbers(_side, _sets.Select(s => s.Name)).Select(c => c.Name).ToList();
+            _eventAggregator.GetEvent<AddCubeEvent>().Publish(
+                new AddCubeEventArgs { Cube = cube });
         }
 
         private void OnAddAll()
@@ -78,6 +108,12 @@ namespace DraftTool.UI.ViewModel
         private void OnExit()
         {
             _eventAggregator.GetEvent<BackToMainEvent>().Publish();
+        }
+
+        public bool OnSaveCubeCanExecute()
+        {
+            List<string> cubeNames = _cubeService.GetCubes().Select(c => c.Name).ToList();
+            return (!String.IsNullOrEmpty(CubeName) && !cubeNames.Contains(CubeName));
         }
     }
 }

@@ -103,6 +103,12 @@
                 <TextBlock FontSize="40" FontWeight="Bold">Start</TextBlock>
             </Button>
 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <ComboBox Height="50" Width="400" FontSize="30" ItemsSource="{Binding Cubes}" SelectedItem="{Binding SelectedCube, Mode=TwoWay}" DisplayMemberPath="Name"/>
+                <Button Height="50" Width="200" Margin="40" Command="{Binding UseCubeCommand}">
+                    <TextBlock FontSize="20" FontWeight="Bold">Start with Cube</TextBlock>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

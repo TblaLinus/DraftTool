@@ -62,7 +62,7 @@ namespace DraftTool.UI.ViewModel
         private void OnStartCardList()
         {
             _eventAggregator.GetEvent<StartCardListEvent>().Publish(
-                new StartCardListEventArgs { CardList = _cards });
+                new StartCardListEventArgs { Side = Side, Sets = Sets.Where(s => s.IsUsed).ToList() });
             Sets.Clear();
         }
 
