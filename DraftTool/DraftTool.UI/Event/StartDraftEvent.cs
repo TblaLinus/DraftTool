@@ -1,12 +1,6 @@
-﻿using DraftTool.Models;
-using DraftTool.UI.ViewModel.Interfaces;
-using DraftTool.UI.Wrapper;
+﻿using DraftTool.UI.Wrapper;
 using Prism.Events;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DraftTool.UI.Event
 {

@@ -1,14 +1,4 @@
-﻿using DraftTool.DataAccess;
-using DraftTool.Models;
-using DraftTool.UI.Event;
-using DraftTool.UI.Wrapper;
-using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Events;
 
 namespace DraftTool.UI.Service
 {

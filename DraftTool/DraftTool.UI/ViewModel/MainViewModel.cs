@@ -1,12 +1,8 @@
-﻿using Autofac.Features.Indexed;
-using Autofac.Features.OwnedInstances;
-using DraftTool.Models;
-using DraftTool.UI.Event;
+﻿using DraftTool.UI.Event;
 using DraftTool.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 

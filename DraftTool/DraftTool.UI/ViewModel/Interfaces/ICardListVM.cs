@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DraftTool.UI.ViewModel.Interfaces
+﻿namespace DraftTool.UI.ViewModel.Interfaces
 {
     public interface ICardListVM
     {

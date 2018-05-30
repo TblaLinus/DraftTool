@@ -1,20 +1,14 @@
-﻿using DraftTool.Models;
-using DraftTool.UI.Event;
+﻿using DraftTool.UI.Event;
 using DraftTool.UI.HelperClasses;
 using DraftTool.UI.Service;
-using DraftTool.UI.Startup;
 using DraftTool.UI.ViewModel.Interfaces;
 using DraftTool.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
