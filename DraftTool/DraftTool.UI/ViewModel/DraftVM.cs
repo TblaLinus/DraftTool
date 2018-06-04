@@ -9,6 +9,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida för att välja ett kort under en draft
     public class DraftVM : ViewModelBase, IDraftVM
     {
         private IEventAggregator _eventAggregator;

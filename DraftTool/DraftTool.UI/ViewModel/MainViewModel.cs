@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Innehåller huvudmenyn och visar alla andra sidor
     public class MainViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;

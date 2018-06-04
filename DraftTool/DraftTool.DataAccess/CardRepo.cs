@@ -4,6 +4,7 @@ using System.Data.SQLite;
 
 namespace DraftTool.DataAccess
 {
+    //Sköter all kommunikation mellan Databasens Cards-tabell och resten av programmet
     public class CardRepo : DBInitiate, ICardRepo
     {
         public List<Card> GetCards()

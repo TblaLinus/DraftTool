@@ -99,7 +99,6 @@
     <Compile Include="Event\AddCubeEvent.cs" />
     <Compile Include="Event\BackToMainEvent.cs" />
     <Compile Include="Event\AddCardEvent.cs" />
-    <Compile Include="Event\CreateCardListEvent.cs" />
     <Compile Include="Event\PlayerDoneEvent.cs" />
     <Compile Include="Event\PlayerReadyEvent.cs" />
     <Compile Include="Event\RemoveCardEvent.cs" />

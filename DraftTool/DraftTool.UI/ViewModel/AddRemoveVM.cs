@@ -12,6 +12,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida för att lägga till och ta bort objekt i databasen
     public class AddRemoveVM : ViewModelBase, IAddRemoveVM
     {
         private IEventAggregator _eventAggregator;

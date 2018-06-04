@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida som visas före varje sida som innehåller spelarspecifik information
     public class PlayerReadyVM : ViewModelBase, IPlayerReadyVM
     {
         private int _player { get; set; }

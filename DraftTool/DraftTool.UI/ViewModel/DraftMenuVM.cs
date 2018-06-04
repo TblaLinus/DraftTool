@@ -13,6 +13,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida för att bestämma vilka set och vilken sida som ska användas i draften samt antal spelare
     public class DraftMenuVM : ViewModelBase, IDraftMenuVM
     {
         private const int _numberOfRounds = 4;
@@ -50,7 +51,7 @@ namespace DraftTool.UI.ViewModel
             _side = "Corp";
 
             StartDraftCommand = new DelegateCommand(OnStartDraft, OnStartDraftCanExecute);
-            UseCubeCommand = new DelegateCommand(OnStartDraft, OnUseCubeCanExecute);
+            UseCubeCommand = new DelegateCommand(OnUseCube, OnUseCubeCanExecute);
         }
 
         private void Sets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -94,17 +95,28 @@ namespace DraftTool.UI.ViewModel
 
         private void OnStartDraft()
         {
+            _cards = _cardService.GetCardsWithNumbers(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             _eventAggregator.GetEvent<StartDraftEvent>().Publish(
                 new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = NumberOfPlayers, NumberOfCards = _numberOfCards, CardList = _cards });
             Sets.Clear();
         }
 
+        //Kollar om tillräckligt många kort är valda
         private bool OnStartDraftCanExecute()
         {
             _cards = _cardService.GetCardsWithNumbers(Side, Sets.Where(s => s.IsUsed).Select(s => s.Name));
             return _cards.Count() >= _numberOfPlayers * _numberOfRounds * _numberOfCards;
         }
 
+        private void OnUseCube()
+        {
+            _cards = _cardService.GetCardsByNames(SelectedCube.CardNames);
+            _eventAggregator.GetEvent<StartDraftEvent>().Publish(
+                new StartDraftEventArgs { NumberOfRounds = _numberOfRounds, NumberOfPlayers = NumberOfPlayers, NumberOfCards = _numberOfCards, CardList = _cards });
+            Sets.Clear();
+        }
+
+        //Kollar om en cube är vald valda
         private bool OnUseCubeCanExecute()
         {
             if (SelectedCube != null)

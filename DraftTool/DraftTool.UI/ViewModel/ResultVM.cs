@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida som visar aktiv spelares samtliga valda kort
     public class ResultVM : ViewModelBase, IResultVM
     {
         private int _player;

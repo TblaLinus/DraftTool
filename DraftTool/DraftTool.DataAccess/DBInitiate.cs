@@ -3,6 +3,7 @@ using System.IO;
 
 namespace DraftTool.DataAccess
 {
+    //Körs då varje repo skapas för att kontrollera att tillhörande tabell finns i databasen och skapa upp dem vid behov
     public class DBInitiate
     {
         private const string DBPath = "../../../database.db";

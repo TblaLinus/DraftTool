@@ -13,6 +13,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida för att bestämma vilka set och vilken sida som ska behadlas av CardList sidan
     public class CardMenuVM : ViewModelBase, ICardMenuVM
     {
         private string _side;

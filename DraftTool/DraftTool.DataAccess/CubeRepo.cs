@@ -4,6 +4,7 @@ using System.Data.SQLite;
 
 namespace DraftTool.DataAccess
 {
+    //Sköter all kommunikation mellan Databasens Cubes och CubeCards-tabeller och resten av programmet
     public class CubeRepo : DBInitiate, ICubeRepo
     {
         public List<Cube> GetCubes()

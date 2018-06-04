@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace DraftTool.UI.HelperClasses
 {
+    //En version av ObservableCollection som kör NotifyCollectionChanged då properties ändras på objekten i listan
     public class ItemsChangeObservableCollection<T> :
            ObservableCollection<T> where T : INotifyPropertyChanged
     {

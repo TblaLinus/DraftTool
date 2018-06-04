@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Vy för varje enskilt kort i CardList sidans lista
     public class CardVM : ViewModelBase, ICardVM
     {
         private IEventAggregator _eventAggregator;

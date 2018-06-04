@@ -13,6 +13,7 @@ using System.Windows.Input;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida för att bestämma hur många av varje kort som ska användas
     public class CardListVM : ViewModelBase, ICardListVM
     {
         private IEventAggregator _eventAggregator;
@@ -57,6 +58,7 @@ namespace DraftTool.UI.ViewModel
             }
         }
 
+        //Hämtar en lista på alla kort från aktuell sida och set
         private void OnStartCardList(StartCardListEventArgs args)
         {
             _side = args.Side;

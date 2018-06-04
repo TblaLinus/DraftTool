@@ -6,6 +6,7 @@ using System;
 
 namespace DraftTool.UI.ViewModel
 {
+    //Sida som visar alla de olika sidorna under en draft
     public class GameVM : ViewModelBase, IGameVM
     {
         private IEventAggregator _eventAggregator;

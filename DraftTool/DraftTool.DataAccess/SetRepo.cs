@@ -6,6 +6,7 @@ namespace DraftTool.DataAccess
 {
     public class SetRepo : DBInitiate, ISetRepo
     {
+        //Sköter all kommunikation mellan Databasens Sets-tabell och resten av programmet
         public List<Set> GetSets()
         {
             List<Set> sets = new List<Set>();

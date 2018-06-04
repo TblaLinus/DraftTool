@@ -9,6 +9,7 @@ namespace DraftTool.UI.Wrapper
         {
         }
 
+        //Anger hur många gånger ett kort ska användas
         public int NumberOfUses
         {
             get { return _numberOfUses; }

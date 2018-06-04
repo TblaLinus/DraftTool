@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace DraftTool.UI.Service
 {
+    //Sköter all logik under en draft
     public class GameEngine : IGameEngine
     {
         private int _activeRound;
@@ -16,6 +17,7 @@ namespace DraftTool.UI.Service
         private bool _clear;
         private IEventAggregator _eventAggregator;
         private ObservableCollection<CardWrapper>[][] _draftDecks;
+        //Alla valda kort för de olika spelarna
         private ObservableCollection<CardWrapper>[] _resultDecks;
         private Random _rnd = new Random();
 
@@ -37,6 +39,7 @@ namespace DraftTool.UI.Service
             _eventAggregator.GetEvent<PlayerDoneEvent>().Subscribe(OnPlayerDone);
         }
 
+        //Körs då draften startar, sätter alla parametrar och visar första PlayerReady sidan
         private void OnStartDraft(StartDraftEventArgs args)
         {
             NumberOfRounds = args.NumberOfRounds;
@@ -53,6 +56,7 @@ namespace DraftTool.UI.Service
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results});
         }
 
+        //Bestämmer vad som ska visas efter varje PlayerReady sida
         private void OnPlayerReady()
         {
             if (_results)
@@ -67,8 +71,10 @@ namespace DraftTool.UI.Service
             }
         }
 
+        //Bestämmer vad som ska visas efter varje Draft sida och Ready sida
         private void OnPlayerDone(PlayerDoneEventArgs args)
         {
+            //Kollar om draften är klar
             if (_results)
             {
                 if (_activePlayer == NumberOfPlayers)
@@ -79,17 +85,20 @@ namespace DraftTool.UI.Service
             }
             else
             {
+                //Kollar om Ready sidor ska visas
                 if (args != null && _activePlayer == NumberOfPlayers && _activeRound == NumberOfRounds)
                 {
                     AddResults(args.ResultDeck);
                     _results = true;
                 }
+                //Kollar om aktuell runda är klar
                 else if (args != null && _activePlayer == NumberOfPlayers)
                 {
                     AddResults(args.ResultDeck);
                     _activeCard = 0;
                     _activeRound++;
                 }
+                //Kollar om alla kort är valda och ska läggas till i spelarens result deck
                 else if (args != null)
                 {
                     AddResults(args.ResultDeck);
@@ -97,10 +106,12 @@ namespace DraftTool.UI.Service
                 _clear = (args != null && _activePlayer == NumberOfPlayers);
             }            
             SetActive();
+            //Visar nästa PlayerReady sida
             _eventAggregator.GetEvent<ShowReadyPageEvent>().Publish(
                 new ShowReadyPageEventArgs { Player = _activePlayer, Results = _results });
         }
 
+        //Lägger till kort i aktiv spelares result deck
         private void AddResults(ObservableCollection<CardWrapper> cards)
         {
             foreach (CardWrapper card in cards)
@@ -109,6 +120,7 @@ namespace DraftTool.UI.Service
             }
         }
 
+        //Bestämmer vilken spelare som ska bli aktiv
         private void SetActive()
         {
             if (_activePlayer == NumberOfPlayers)
@@ -122,6 +134,7 @@ namespace DraftTool.UI.Service
             }
         }
 
+        //Slumpar fram de olika "händer" som ska användas under draften
         private ObservableCollection<CardWrapper>[][] GetDraftDecks()
         {
             ObservableCollection<CardWrapper>[][] decks = new ObservableCollection<CardWrapper>[NumberOfRounds][];

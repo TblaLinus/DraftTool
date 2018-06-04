@@ -6,10 +6,12 @@ using System.Collections.Generic;
 
 namespace DraftTool.UI.Service
 {
+    //Sköter kommunikation mellan SetRepo och resten av programmet
     class SetService : DBServiceBase, ISetService
     {
         private ISetRepo _repo;
 
+        //Alla set i databasen
         public List<SetWrapper> Sets { get; }
 
         public SetService(IEventAggregator eventAggregator, ISetRepo repo) : base(eventAggregator)

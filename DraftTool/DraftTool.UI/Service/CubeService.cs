@@ -8,6 +8,7 @@ namespace DraftTool.UI.Service
 {
     class CubeService : DBServiceBase, ICubeService
     {
+        //Sköter kommunikation mellan CubeRepo och resten av programmet
         private ICubeRepo _repo;
         public CubeService(IEventAggregator eventAggregator, ICubeRepo repo) : base(eventAggregator)
         {
