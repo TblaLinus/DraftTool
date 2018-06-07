@@ -35,7 +35,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox Name="ChosenList" Grid.Row="2" Grid.Column="0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
+        <ListBox Name="ChosenList" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
                  SelectionChanged="ChosenList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ChosenCards}" SelectedItem="{Binding SelectedChosenCard, Mode=TwoWay}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -53,6 +53,6 @@
             <TextBlock FontSize="40" FontWeight="Bold">Select Card</TextBlock>
         </Button>
 
-        <Image Grid.Row="2" Grid.Column="2" Height="400" Source="{Binding SelectedCard.ImageURL}"/>
+        <Image Grid.Row="2" Grid.Column="2" Height="300"  Source="{Binding SelectedCard.ImageURL}"/>
     </Grid>
 </UserControl>
