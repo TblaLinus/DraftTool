@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -35,8 +35,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox Name="ChosenList" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
-                 SelectionChanged="ChosenList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ChosenCards}" SelectedItem="{Binding SelectedChosenCard, Mode=TwoWay}">
+        <ListBox Name="ChosenList" Grid.Row="2" Grid.Column="0"  Height="320"  VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ChosenList_SelectionChanged" ItemsSource="{Binding ChosenCards}" SelectedItem="{Binding SelectedChosenCard, Mode=TwoWay}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
@@ -49,10 +49,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Name="Select" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Width="300" Height="100" Margin="20" Command="{Binding SelectedCommand}">
+        <Button Name="Select" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Width="250" Height="70" Margin="20" Command="{Binding SelectedCommand}">
             <TextBlock FontSize="40" FontWeight="Bold">Select Card</TextBlock>
         </Button>
 
-        <Image Grid.Row="2" Grid.Column="2" Height="300"  Source="{Binding SelectedCard.ImageURL}"/>
+        <Image Grid.Row="2" Grid.Column="2" Height="320"  Source="{Binding SelectedCard.ImageURL}"/>
     </Grid>
 </UserControl>

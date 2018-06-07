@@ -16,7 +16,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ListBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="1500" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
+        <ListBox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ResultDeck}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
