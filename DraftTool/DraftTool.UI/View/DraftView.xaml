@@ -10,7 +10,6 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
@@ -22,7 +21,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Name="AvailableList" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
+        <ListBox Name="AvailableList" Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
                  SelectionChanged="AvailableList_SelectionChanged" ItemsSource="{Binding AvailableCards}" SelectedItem="{Binding SelectedAvailableCard, Mode=TwoWay}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -31,12 +30,12 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image VerticalAlignment="Center" Height="260" Margin="1" Source="{Binding ImageURL}"/>
+                    <Image VerticalAlignment="Center" Height="200" Margin="1" Source="{Binding ImageURL}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox Name="ChosenList" Grid.Row="3" Grid.Column="0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
+        <ListBox Name="ChosenList" Grid.Row="2" Grid.Column="0" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" 
                  SelectionChanged="ChosenList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ChosenCards}" SelectedItem="{Binding SelectedChosenCard, Mode=TwoWay}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -50,10 +49,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Name="Select" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Width="300" Height="100" Margin="20" Command="{Binding SelectedCommand}">
+        <Button Name="Select" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Width="300" Height="100" Margin="20" Command="{Binding SelectedCommand}">
             <TextBlock FontSize="40" FontWeight="Bold">Select Card</TextBlock>
         </Button>
 
-        <Image Grid.Row="3" Grid.Column="2" Height="400" Source="{Binding SelectedCard.ImageURL}"/>
+        <Image Grid.Row="2" Grid.Column="2" Height="400" Source="{Binding SelectedCard.ImageURL}"/>
     </Grid>
 </UserControl>
